@@ -1,0 +1,33 @@
+name: Daily expiration rebuild
+
+on:
+  schedule:
+    - cron: '5 11 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-expiration-rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    name: Rebuild production after event expiration
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Trigger Vercel production rebuild
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.EXPIRATION_REBUILD_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "EXPIRATION_REBUILD_HOOK_URL is not configured" >&2
+            exit 1
+          fi
+
+          curl --fail --silent --show-error \
+            --request POST \
+            --output /dev/null \
+            "$DEPLOY_HOOK_URL"
