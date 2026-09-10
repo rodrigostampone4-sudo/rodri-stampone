@@ -1,0 +1,382 @@
+---
+import { Image } from 'astro:assets';
+import BrandHead from '../components/BrandHead.astro';
+import PermanentLinkIcon from '../components/PermanentLinkIcon.astro';
+import neonLogo from '../assets/4side/4side-logotipo-neon-naranja-alpha.png';
+import reliefLogo from '../assets/4side/4side-logotipo-relieve-negro-alpha.png';
+import reliefLogoHitArea from '../assets/4side/4side-logotipo-relieve-vectorizado.svg?raw';
+import { getEventExpirationTime, isEventActive } from '../lib/events/expiration';
+import { buildEventTablesWhatsAppUrl } from '../lib/events/tables-link';
+import { findProfileInstagramLink } from '../lib/links/profile-instagram';
+import { getSanityClient } from '../lib/sanity/client';
+import { buildSanityImageSrcSet, buildSanityImageUrl } from '../lib/sanity/image';
+import { siteSettingsQuery, visibleEventsQuery } from '../lib/sanity/queries';
+import '../styles/global.css';
+import type { Event, SiteSettings } from '../types/content';
+
+const client = getSanityClient();
+const producerName = '4SIDE';
+const producerInstagramUrl = 'https://www.instagram.com/4side.prod/';
+const ledSignWidths = [470, 706, 941];
+const ledSignSizes = '(max-width: 992px) calc(100vw - 40px), 42vw';
+const reliefLogoHitAreaPaths = reliefLogoHitArea
+  .replace(/^[\s\S]*?<svg\b[^>]*>/, '')
+  .replace(/<\/svg>\s*$/, '');
+
+const [siteSettings, events] = await Promise.all([
+  client.fetch<SiteSettings | null>(siteSettingsQuery),
+  client.fetch<Event[]>(visibleEventsQuery),
+]);
+
+if (!siteSettings) {
+  throw new Error('Sanity siteSettings content was not found.');
+}
+
+const enabledLinks = siteSettings.links.filter((link) => link.enabled);
+const renderTime = new Date();
+const activeEvents = events.flatMap((event) => {
+  if (!isEventActive(event, renderTime)) {
+    return [];
+  }
+
+  const expirationTime = getEventExpirationTime(event);
+  return expirationTime === null ? [] : [{ event, expirationTime }];
+});
+const profileInstagramLink = findProfileInstagramLink(siteSettings.links);
+const PortraitWrapper = profileInstagramLink ? 'a' : 'div';
+const tablesLink = enabledLinks.find((link) => link.kind === 'tables');
+const defaultDescription = `Próximos eventos, tickets, mesas y links oficiales de ${siteSettings.name} y ${producerName}.`;
+const description = siteSettings.bio?.trim()
+  ? `${siteSettings.bio.trim()} ${defaultDescription}`
+  : defaultDescription;
+const pageTitle = `${siteSettings.name} · ${producerName}`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+
+const dateFormatter = new Intl.DateTimeFormat('es-AR', {
+  day: '2-digit',
+  month: 'short',
+  timeZone: 'UTC',
+});
+
+function formatEventDate(date: string): { day: string; month: string } {
+  const parts = dateFormatter.formatToParts(new Date(`${date}T12:00:00Z`));
+
+  return {
+    day: parts.find(({ type }) => type === 'day')?.value ?? '',
+    month: (parts.find(({ type }) => type === 'month')?.value ?? '').replace('.', '').toUpperCase(),
+  };
+}
+
+const profileImageUrl = buildSanityImageUrl(siteSettings.profileImage, 1080, 86);
+const profileImageSrcSet = buildSanityImageSrcSet(
+  siteSettings.profileImage,
+  [480, 720, 960, 1080],
+  86,
+);
+const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 1200, 86);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <BrandHead />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {profileSocialImageUrl && <meta property="og:image" content={profileSocialImageUrl} />}
+    {profileSocialImageUrl && (
+      <meta
+        property="og:image:alt"
+        content={siteSettings.profileImage?.alt || `Retrato de ${siteSettings.name}`}
+      />
+    )}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {profileSocialImageUrl && <meta name="twitter:image" content={profileSocialImageUrl} />}
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <div class="page-shell" id="top">
+      <header class="site-header">
+        <a
+          class="brand-link"
+          href={producerInstagramUrl}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Abrir Instagram de ${producerName}`}
+        >
+          <img src="/favicon.svg" width="36" height="36" alt="" />
+        </a>
+
+        <div class="header-profile">
+          <figure class="led-sign">
+            <div class="led-sign__stage">
+              <div class="led-sign__artwork">
+                <Image
+                  class="led-sign__image led-sign__image--relief"
+                  src={reliefLogo}
+                  alt=""
+                  widths={ledSignWidths}
+                  sizes={ledSignSizes}
+                  layout="constrained"
+                  format="webp"
+                  quality={82}
+                  loading="eager"
+                  decoding="async"
+                />
+                <Image
+                  class="led-sign__image led-sign__image--glow"
+                  src={neonLogo}
+                  alt=""
+                  aria-hidden="true"
+                  widths={ledSignWidths}
+                  sizes={ledSignSizes}
+                  layout="constrained"
+                  format="webp"
+                  quality={90}
+                  loading="eager"
+                  decoding="async"
+                />
+                <Image
+                  class="led-sign__image led-sign__image--neon"
+                  src={neonLogo}
+                  alt=""
+                  widths={ledSignWidths}
+                  sizes={ledSignSizes}
+                  layout="constrained"
+                  format="webp"
+                  quality={90}
+                  loading="eager"
+                  decoding="async"
+                />
+                <svg
+                  class="led-sign__hit-area"
+                  viewBox="0 531.099 941 588.125"
+                  preserveAspectRatio="none"
+                >
+                  <a
+                    class="led-sign__hit-area-link"
+                    href={producerInstagramUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Abrir Instagram de ${producerName}`}
+                  >
+                    <rect
+                      class="led-sign__hit-area-fill"
+                      x="0"
+                      y="531.099"
+                      width="941"
+                      height="588.125"
+                    />
+                    <g set:html={reliefLogoHitAreaPaths} />
+                  </a>
+                </svg>
+              </div>
+            </div>
+          </figure>
+
+          {profileInstagramLink && siteSettings.instagramHandle && (
+            <a
+              class="header-handle"
+              href={profileInstagramLink.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {siteSettings.instagramHandle}
+            </a>
+          )}
+        </div>
+      </header>
+
+      <main id="contenido">
+        <section class="events-section" aria-labelledby="events-heading">
+          <header class="events-intro">
+            <div class="events-heading">
+              <h1 id="events-heading">Próximos eventos</h1>
+              <span
+                class="event-count"
+                data-event-count
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                aria-label={`${activeEvents.length} ${activeEvents.length === 1 ? 'evento' : 'eventos'}`}
+              >
+                {String(activeEvents.length).padStart(2, '0')}
+              </span>
+            </div>
+
+          </header>
+
+          <ol class="events-list" data-events-list hidden={activeEvents.length === 0}>
+              {activeEvents.map(({ event, expirationTime }) => {
+                const formattedDate = formatEventDate(event.date);
+                const tablesUrl = tablesLink
+                  ? buildEventTablesWhatsAppUrl(tablesLink.url, event)
+                  : undefined;
+
+                return (
+                  <li class="event-item" data-event-expires-at={expirationTime}>
+                    <div class="event-ticket-link">
+                      <a
+                        class="event-ticket-overlay"
+                        href={event.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${event.title}, ${event.venue}, productora ${event.producer}, ${formattedDate.day} de ${formattedDate.month}. Abrir tickets`}
+                      ></a>
+                      <time class="event-date" datetime={event.date}>
+                        <strong>{formattedDate.day}</strong>
+                        <span>{formattedDate.month}</span>
+                      </time>
+                      <span class="event-title">{event.title}</span>
+                      <span class="event-meta">
+                        {event.venueMapsUrl ? (
+                          <a
+                            class="event-venue event-venue--maps"
+                            href={event.venueMapsUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`Abrir ubicación de ${event.venue} en Google Maps`}
+                          >
+                            {event.venue}
+                          </a>
+                        ) : (
+                          <span class="event-venue">{event.venue}</span>
+                        )}
+                        <span
+                          class:list={[
+                            'event-producer',
+                            { 'event-producer--4side': event.producerId === 'producer-4side' },
+                          ]}
+                        >
+                          {event.producer}
+                        </span>
+                      </span>
+                      <span class="event-actions">
+                        <span class="event-cta event-ticket-cta">
+                          Tickets
+                          <svg
+                            class="event-arrow"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="M7 17 17 7" />
+                            <path d="M8 7h9v9" />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                    {tablesUrl && (
+                      <a
+                        class="event-cta event-tables-cta"
+                        href={tablesUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Consultar mesas para ${event.title} el ${formattedDate.day} de ${formattedDate.month} por WhatsApp`}
+                      >
+                        Mesas
+                      </a>
+                    )}
+                  </li>
+                );
+              })}
+          </ol>
+          <p
+            class="empty-state"
+            data-events-empty-state
+            hidden={activeEvents.length > 0}
+          >
+            No hay próximos eventos publicados.
+          </p>
+        </section>
+
+        <section class="profile-section" aria-labelledby="profile-heading">
+          <div class="profile-copy">
+            <h2 id="profile-heading">{siteSettings.name}</h2>
+
+            {siteSettings.bio && <p class="profile-bio">{siteSettings.bio}</p>}
+
+            {enabledLinks.length > 0 && (
+              <nav aria-label="Links de Rodrigo Stampone">
+                <ul class="link-list">
+                  {enabledLinks.map((link) => (
+                    <li>
+                      <a
+                        class="permanent-link"
+                        href={link.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <PermanentLinkIcon kind={link.kind} />
+                        <span>{link.label}</span>
+                        <svg
+                          class="external-arrow"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M7 17 17 7" />
+                          <path d="M8 7h9v9" />
+                        </svg>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
+          </div>
+
+          <PortraitWrapper
+            class="portrait-link"
+            href={profileInstagramLink?.url}
+            target={profileInstagramLink ? '_blank' : undefined}
+            rel={profileInstagramLink ? 'noreferrer' : undefined}
+            aria-label={profileInstagramLink ? `Abrir Instagram de ${siteSettings.name}` : undefined}
+          >
+            <figure class="portrait">
+              {profileImageUrl ? (
+                <img
+                  src={profileImageUrl}
+                  srcset={profileImageSrcSet}
+                  sizes="(max-width: 992px) calc(100vw - 40px), 43vw"
+                  width="1080"
+                  height="1080"
+                  alt={siteSettings.profileImage?.alt || `Retrato de ${siteSettings.name}`}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div class="portrait-fallback" aria-hidden="true">RS</div>
+              )}
+            </figure>
+          </PortraitWrapper>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <strong>{siteSettings.name}</strong>
+        <span>{producerName}</span>
+      </footer>
+    </div>
+    <script>
+      import '../scripts/event-expiration';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "rodri-stampone-landing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.8",
+  "engines": {
+    "node": ">=22.12 <25"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "sanity:seed": "npm --prefix studio run seed",
+    "sanity:smoke": "node --experimental-strip-types --env-file=.env scripts/sanity-smoke.mjs",
+    "sanity:verify-seed": "node --experimental-strip-types --env-file=.env scripts/verify-sanity-seed.mjs"
+  },
+  "dependencies": {
+    "@sanity/client": "^8.4.0",
+    "@sanity/image-url": "^2.1.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "astro": "^7.2.10",
+    "typescript": "^6.0.3"
+  }
+}
