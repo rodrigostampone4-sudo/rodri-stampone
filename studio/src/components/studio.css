@@ -227,7 +227,7 @@
 
 .rs-event-row {
   display: grid;
-  grid-template-columns: minmax(92px, auto) minmax(0, 1fr) auto auto;
+  grid-template-columns: 10.5rem minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 16px;
   min-height: 68px;
