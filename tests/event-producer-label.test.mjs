@@ -22,7 +22,7 @@ test('event cards render the producer as non-interactive metadata', () => {
     landing,
     /'event-meta--wrapped-venue': wrapsMobileVenue[\s\S]*?class="event-venue event-venue--maps"[\s\S]*?class:list=\{\[[\s\S]*?'event-producer'/,
   );
-  assert.match(landing, /const wrapsMobileVenue = event\.venue\.trim\(\)\.length > 8;/);
+  assert.match(landing, /const wrapsMobileVenue = event\.venue\.trim\(\)\.length > 10;/);
   assert.match(landing, /productora \$\{event\.producer\}/);
   assert.match(
     styles,
@@ -42,7 +42,7 @@ test('event cards render the producer as non-interactive metadata', () => {
   );
   assert.match(
     styles,
-    /@media \(max-width: 21rem\) \{[\s\S]*?\.event-producer \{[\s\S]*?min-width: 0;[\s\S]*?max-width: 100%;[\s\S]*?white-space: normal;/,
+    /@media \(max-width: 22rem\) \{[\s\S]*?\.event-producer \{[\s\S]*?min-width: 0;[\s\S]*?max-width: 100%;[\s\S]*?white-space: normal;/,
   );
   assert.match(
     styles,
@@ -70,7 +70,7 @@ test('only 4SIDE receives the continuous orbiting border reflection', () => {
 test('mobile event titles wrap without competing with actions or metadata', () => {
   assert.match(
     styles,
-    /@media \(max-width: 21rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?grid-template-columns: 2\.5rem minmax\(0, 1fr\) auto;[\s\S]*?gap: 0\.375rem;[\s\S]*?\.event-producer \{[\s\S]*?min-width: 0;[\s\S]*?max-width: 100%;[\s\S]*?white-space: normal;/,
+    /@media \(max-width: 22rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?grid-template-columns: 2\.5rem minmax\(0, 1fr\) auto;[\s\S]*?gap: 0\.375rem;[\s\S]*?\.event-producer \{[\s\S]*?min-width: 0;[\s\S]*?max-width: 100%;[\s\S]*?white-space: normal;/,
   );
   assert.match(
     styles,

@@ -210,7 +210,7 @@ const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 120
                 const tablesUrl = tablesLink
                   ? buildEventTablesWhatsAppUrl(tablesLink.url, event)
                   : undefined;
-                const wrapsMobileVenue = event.venue.trim().length > 8;
+                const wrapsMobileVenue = event.venue.trim().length > 10;
 
                 return (
                   <li class="event-item" data-event-expires-at={expirationTime}>
