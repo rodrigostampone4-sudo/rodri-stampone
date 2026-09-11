@@ -1114,7 +1114,7 @@ a:focus-visible {
 @media (max-width: 27rem) {
   .event-meta {
     display: grid;
-    grid-template-columns: fit-content(4rem) auto;
+    grid-template-columns: fit-content(5.5rem) auto;
     justify-content: start;
   }
 }
@@ -1127,6 +1127,7 @@ a:focus-visible {
 
   .event-meta {
     align-items: start;
+    grid-template-columns: fit-content(4rem) auto;
   }
 
   .event-venue--maps {
