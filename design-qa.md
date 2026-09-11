@@ -2,6 +2,9 @@
 
 ## Evidence
 
+The paths below refer to local, non-versioned QA captures. They document the
+validated session but are not runtime inputs or portable repository assets.
+
 - Source visual truth:
   - `C:\Users\mater\AppData\Local\Temp\codex-clipboard-f6c9692e-58d3-4f5d-9758-53bedf348c8a.png` (762 x 280): the CMS Bio field contains an explicit line break between `Productor 4SIDE` and `TL Elements`.
   - `C:\Users\mater\AppData\Local\Temp\codex-clipboard-8bf1edac-b12c-4085-ad85-09225da512fc.png` (1766 x 758): the reported desktop profile layout before correction.

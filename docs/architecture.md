@@ -1,14 +1,18 @@
-# Arquitectura actual y prevista
+# Arquitectura actual
 
 ```text
-Instagram
+Visitantes
+    ↓
+https://rodristampone.events/
+    ↓
+Vercel: rodri-stampone
     ↓
 Landing Astro estática
-    ↓
-Vercel
 
 Administración:
-CMS Vercel self-hosted (principal)
+https://admin.rodristampone.events/
+    ↓
+Vercel: rodri-stampone-cms
     ↓
 Sanity Studio
     ↓
@@ -19,11 +23,6 @@ Webhook filtrado
 Deploy Hook de Vercel
     ↓
 Rebuild estático de producción
-
-Fallback temporal:
-Sanity Studio hosted por Sanity
-    ↓
-Sanity Content Lake
 ```
 
 La landing se genera como un sitio estático con Astro y tiene un enfoque
@@ -38,14 +37,18 @@ y la gestión del webhook se realizan mediante la CLI/API oficial autenticada.
 
 ## Despliegue actual
 
-El repositorio GitHub actual `materamos/rodri-stampone` está conectado al
-proyecto Vercel `rodri-stampone`. La raíz del proyecto es `.`, el framework es
-Astro, el build es `npm run build` y la salida es `dist/`. `main` es la rama de
-producción. Sanity Studio no se despliega como parte del frontend público. El
-CMS principal se publica en el proyecto Vercel independiente
-`rodri-stampone-cms`, con Root Directory `studio/`, y queda disponible en
-`https://rodri-stampone-cms.vercel.app`. El Studio alojado por Sanity en
-`https://rodristampone.sanity.studio` se conserva temporalmente como fallback.
+El repositorio GitHub actual `rodrigostampone4-sudo/rodri-stampone` está
+conectado a los proyectos Vercel `rodri-stampone` y `rodri-stampone-cms`.
+`main` es la rama de producción de ambos. La landing usa la raíz `.`, el preset
+Astro, `npm run build` y la salida `dist/`; su dominio público es
+`https://rodristampone.events/` y `PUBLIC_SITE_URL` debe declararlo como
+canonical. Sanity Studio se publica por separado desde `studio/`, también con
+`npm run build` y salida `dist/`, y su dominio público es
+`https://admin.rodristampone.events/`.
+
+El CMS de Vercel es la única interfaz pública del Studio. Sanity mantiene el
+registro externo del workspace y sus schemas, pero no se publica una segunda
+copia alojada del Studio.
 
 Como Vercel trata `studio/` como Root Directory, el código del CMS debe ser
 autocontenido dentro de esa carpeta. No puede importar módulos del frontend. La
@@ -113,16 +116,21 @@ expiración automática al día siguiente a las 08:00 de
 
 ## Configuración transferible
 
-`PUBLIC_SITE_URL` define canonical, Open Graph, robots y sitemap. El Studio usa
-`SANITY_STUDIO_LANDING_URL` para el acceso “Ver landing”. Ambos tienen un
-fallback HTTPS temporal, pero el dominio definitivo se configura mediante
-variables después del handoff.
+`PUBLIC_SITE_URL=https://rodristampone.events/` define canonical, Open Graph,
+robots y sitemap. El Studio usa
+`SANITY_STUDIO_LANDING_URL=https://rodristampone.events/` para el acceso “Ver
+landing”. El código conserva un fallback HTTPS de seguridad, pero producción
+debe definir ambas variables con el dominio canónico.
+
+Sanity debe autorizar `https://admin.rodristampone.events` como origin CORS con
+credenciales. No se autorizan wildcards con credenciales; cualquier origin
+alternativo se conserva sólo mientras exista un uso operativo explícito.
 
 Los workflows de GitHub validan ambos paquetes sin desplegar ni almacenar
 tokens de Vercel. La integración Git de cada proyecto conserva la
-responsabilidad del deployment. Las reglas de protección, CODEOWNERS, alertas, variables,
-dominios, CORS y hooks se finalizan sólo cuando el repositorio y los servicios
-pertenecen al destinatario.
+responsabilidad del deployment. Las reglas de protección, CODEOWNERS, alertas,
+variables, dominios, CORS, hooks y accesos se administran en cada servicio y no
+se consideran resueltos sólo por estar documentados en el repositorio.
 
 El seed es un bootstrap para un dataset vacío, no una copia de seguridad. Crea
 venues, productoras, `siteSettings` y eventos iniciales con referencias actuales;

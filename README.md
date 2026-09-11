@@ -7,7 +7,7 @@ Landing mobile-first de Rodrigo Stampone y panel editorial asociado.
 - Astro para la landing estática.
 - TypeScript en modo estricto.
 - Sanity como CMS y fuente de verdad del contenido dinámico.
-- Vercel como destino de producción de la landing.
+- Vercel como destino de producción de la landing y del Studio self-hosted.
 
 El Studio oficial de Sanity requiere React, `react-dom` y
 `styled-components` como runtime. Esas dependencias están aisladas dentro de
@@ -113,29 +113,32 @@ npm run sanity:verify-seed
 ## Despliegue y pipeline de contenido
 
 El repositorio GitHub actual es
-<https://github.com/materamos/rodri-stampone>. La rama `main` es la rama
+<https://github.com/rodrigostampone4-sudo/rodri-stampone>. La rama `main` es la rama
 de producción. GitHub Actions ejecuta tests, checks y builds de landing y Studio
 en cada pull request y push a `main`; Vercel continúa desplegando mediante su
 integración Git y no recibe tokens desde GitHub Actions.
 
-El frontend está conectado al proyecto Vercel `rodri-stampone` del propietario
-actual. El proyecto usa la raíz del repositorio
+El frontend está conectado al proyecto Vercel `rodri-stampone`. El proyecto usa
+la raíz del repositorio
 (`.`), preset Astro, `npm run build` y salida `dist/`. Sanity Studio permanece
-fuera del despliegue público de la landing. La URL temporal de producción es
-<https://rodri-stampone.vercel.app>.
+fuera del despliegue público de la landing. La URL pública de producción es
+<https://rodristampone.events/> y `PUBLIC_SITE_URL` debe usar ese mismo host
+como canonical; `www.rodristampone.events` y el dominio estable de Vercel
+redirigen allí.
 
 El CMS principal está self-hosted en el proyecto Vercel independiente
 `rodri-stampone-cms`, conectado al mismo repositorio y a la rama `main`. Usa
 `studio/` como Root Directory, preset `Other`, `npm run build` como comando y
 `dist/` como salida. Su URL pública es
-<https://rodri-stampone-cms.vercel.app>. Los despliegues normales de ambos
+<https://admin.rodristampone.events/>. Los despliegues normales de ambos
 proyectos se generan desde la integración Git sobre `main`.
 
 El CMS usa Sanity como Content Lake sobre el proyecto y dataset `production`,
-y la autenticación de Sanity para las operaciones administrativas. Su origin
-exacto está autorizado en Sanity mediante CORS con credenciales. No agregues
-`*.vercel.app` ni otro wildcard con credenciales. Más adelante se planea
-conectar un hostname `cms.<dominio>`.
+y la autenticación de Sanity para las operaciones administrativas. El origin
+`https://admin.rodristampone.events` debe estar autorizado en Sanity mediante
+CORS con credenciales. No agregues `*.vercel.app` ni otro wildcard con
+credenciales; conservá un origin alternativo de Vercel sólo mientras se use de
+forma explícita.
 
 El CMS self-hosted está registrado en Sanity como Studio externo. Ese registro
 permite que Sanity Dashboard resuelva el workspace y sus schemas sin publicar
@@ -154,12 +157,18 @@ La configuración de producción de la landing requiere estas variables pública
 ```text
 PUBLIC_SANITY_PROJECT_ID=3qxptft9
 PUBLIC_SANITY_DATASET=production
-PUBLIC_SITE_URL=https://rodri-stampone.vercel.app/
+PUBLIC_SITE_URL=https://rodristampone.events/
 ```
 
-El CMS configura las dos variables equivalentes de Sanity y
-`SANITY_STUDIO_LANDING_URL`. El dominio definitivo se cambia en esas variables,
-sin modificar componentes.
+El CMS requiere la configuración equivalente:
+
+```text
+SANITY_STUDIO_PROJECT_ID=3qxptft9
+SANITY_STUDIO_DATASET=production
+SANITY_STUDIO_LANDING_URL=https://rodristampone.events/
+```
+
+Los dominios se cambian mediante estas variables, sin modificar componentes.
 
 El proyecto está conectado a GitHub para que `main` sea la rama de producción.
 Además, un Deploy Hook de Vercel permite iniciar un rebuild de producción sin
@@ -188,19 +197,23 @@ demore. Como garantía adicional, GitHub Actions invoca el Deploy Hook a las
 `11:05 UTC` (`08:05 America/Argentina/Buenos_Aires`) mediante el secreto
 `EXPIRATION_REBUILD_HOOK_URL`.
 
-## Límites del handoff
+## Operación y cierre del handoff
 
-El código deja configurables el dominio público y el enlace del Studio, pero no
-versiona secretos ni datos de propiedad. Después de transferir GitHub, los dos
-proyectos de Vercel y Sanity, el nuevo propietario debe:
+El repositorio GitHub y los proyectos Vercel de landing y CMS despliegan desde
+`main` bajo la operación del propietario actual. El código deja configurables
+los dominios, pero no versiona secretos ni datos de propiedad. Para cerrar o
+revalidar un handoff se debe:
 
-1. definir las variables de ambos proyectos;
-2. reconectar Git y confirmar `main` como rama de producción;
-3. revisar el Cron Job y crear un Deploy Hook nuevo;
-4. guardar ese hook en el secreto de GitHub Actions
+1. definir las variables de producción de ambos proyectos con los dominios
+   canónicos indicados arriba;
+2. confirmar que ambos proyectos Vercel siguen conectados a este repositorio y
+   a `main`;
+3. revisar el Cron Job y el Deploy Hook de producción;
+4. guardar el hook vigente en el secreto de GitHub Actions
    `EXPIRATION_REBUILD_HOOK_URL`;
-5. actualizar el webhook de Sanity y los origins CORS exactos;
-6. revocar hooks, tokens y origins del propietario anterior;
+5. mantener en Sanity sólo los origins CORS exactos que se utilicen;
+6. rotar hooks y tokens, y revocar accesos del operador anterior cuando el
+   propietario confirme acceso independiente;
 7. demostrar el flujo publicación de Sanity → deployment `READY` → landing.
 
 Las URLs de hooks, tokens, claim codes y credenciales son secretos operativos y
