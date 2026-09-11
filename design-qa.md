@@ -1,66 +1,62 @@
-# Events landing visual QA
+# Header logo visual QA
 
 ## Evidence
 
-The paths below refer to local, non-versioned QA captures. They document the
-validated session but are not runtime inputs or portable repository assets.
+The screenshot files below are local QA evidence and are not runtime inputs.
 
-- Source visual truth: `C:\Users\mater\AppData\Local\Temp\codex-clipboard-34f566d7-da1d-4c1f-accd-6c81882ec2be.png` (731 x 738), showing the numeric event counter below the heading.
-- Browser-rendered baseline: `C:\Users\mater\AppData\Local\Temp\rodri-events-before-1440.png` (1440 x 900), CSS viewport 1440 x 900, device pixel ratio 1.
+- Source visual truth: `C:\Users\mater\AppData\Local\Temp\codex-clipboard-da8555a4-8491-4762-b5b4-712eeab8027d.png` (206 x 183), showing the framed 4SIDE mark selected for removal.
+- Browser-rendered baseline: `C:\Users\mater\.codex\visualizations\2026\09\11\01a08ee4-43bd-7a81-83e4-d4c24d0bcae5\rodri-logo-before-390.png` (390 x 844), CSS viewport 390 x 844, device pixel ratio 1.
 - Browser-rendered implementation:
-  - `C:\Users\mater\AppData\Local\Temp\rodri-events-after-1440.png` (1440 x 900), CSS viewport 1440 x 900, device pixel ratio 1.
-  - `C:\Users\mater\AppData\Local\Temp\rodri-events-after-731.png` (731 x 738), CSS viewport 731 x 738, device pixel ratio 1.
-  - `C:\Users\mater\AppData\Local\Temp\rodri-events-after-390.png` (390 x 844), CSS viewport 390 x 844, device pixel ratio 1.
-- State: published Sanity event content rendered by the local Astro static preview.
-- Density normalization: each implementation capture uses one screenshot pixel per CSS pixel. The user reference and the 731 x 738 implementation were opened together in the same comparison input; the requested delta was also compared against the matching 1440 x 900 baseline to avoid treating pre-existing viewport-scale differences as regressions.
+  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08ee4-43bd-7a81-83e4-d4c24d0bcae5\rodri-logo-after-390.png` (390 x 844), CSS viewport 390 x 844, device pixel ratio 1.
+  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08ee4-43bd-7a81-83e4-d4c24d0bcae5\rodri-logo-after-1440.png` (1440 x 900), CSS viewport 1440 x 900, device pixel ratio 1.
+- State: published Sanity content rendered by the local Astro static preview.
+- Density normalization: implementation captures use one screenshot pixel per CSS pixel. Baseline and implementation were compared together at the same 390 x 844 viewport and page state.
 
 ## Full-view comparison
 
-The combined source/implementation comparison shows that the boxed numeric
-counter is absent and the released vertical space is used by the event list.
-At 1440 x 900, the heading retained its 226.546875 px top and 193.53125 px
-height, while the list moved from 580.078125 px to 492.078125 px: an 88 px
-upward shift without changing the heading composition. The 390 x 844 view
-keeps the same hierarchy, places the list at 308.015625 px, and has no
-horizontal overflow.
+The mobile before/after comparison confirms that the square border disappears
+without changing the logo position, header height, neon sign, handle, event
+heading, or first event row. The desktop capture confirms the same treatment at
+the wider responsive header.
 
-## Focused evidence
+## Focused logo evidence
 
-A separate focused crop was not needed because the removed counter, heading,
-section boundary, and first event row are all clearly readable in the full
-captures. DOM measurements supplied the exact before/after geometry for the
-affected region.
+The logo is readable at full size in the 390 px captures, so no additional crop
+was required. Before the change, the image had a `1px solid` border using the
+14% white border token. After the change, the computed border is `0px none`.
+Mobile image geometry remains 34.0625 x 34.0625 px at left 25.84375 px and top
+13.640625 px. Desktop image geometry remains 68.796875 x 68.796875 px. The
+mobile link retains a 44 px height.
 
 ## Findings
 
 No actionable P0, P1, or P2 visual differences remain in the requested change.
 
-- Fonts and typography: the existing heading and event typography, weights, line heights, tracking, wrapping, and antialiasing are unchanged.
-- Spacing and layout rhythm: removing the counter collapses its 56 px top margin and 32 px box height, moving the list upward by 88 px while preserving the established section margin and alignments.
-- Colors and visual tokens: unchanged; no new colors, borders, gradients, or effects were introduced.
-- Image quality and asset fidelity: existing logo and event assets, crops, glow treatment, and responsive image behavior are unchanged.
-- Copy and content: the numeric total is removed; event titles, dates, venues, producers, actions, and empty-state copy are preserved.
+- Fonts and typography: unchanged across the header, event heading, and event list.
+- Spacing and layout rhythm: logo dimensions, offsets, header line, and clickable-area geometry are unchanged; only the visible frame is removed.
+- Colors and visual tokens: the border token is no longer applied to the logo; all other header colors and glow treatments remain unchanged.
+- Image quality and asset fidelity: the existing transparent `/favicon.svg` asset remains sharp and unmodified at both responsive sizes.
+- Copy and content: unchanged.
 
 ## Comparison history
 
-1. Baseline at 1440 x 900: the counter was visible from 476.078125 px to 508.078125 px and the first event-list boundary began at 580.078125 px.
-2. Fix applied: remove the counter markup and styles, and decouple client-side expiration synchronization from the removed element.
-3. Post-fix at 1440 x 900: no counter exists; the heading geometry is unchanged and the event list begins at 492.078125 px, 88 px higher.
-4. Responsive pass at 390 x 844: no counter, no framework overlay, no horizontal overflow, and the event list follows the heading with the existing 72 px section gap.
+1. Baseline at 390 x 844: logo border computed as `1px solid rgba(255, 255, 255, 0.14)`; image measured 34.0625 px square and link height measured 44 px.
+2. Fix applied: remove only the border declaration from `.brand-link img`.
+3. Post-fix at 390 x 844: border computes as `0px none`; image position and dimensions match the baseline exactly.
+4. Desktop pass at 1440 x 900: border remains absent, logo measures 68.796875 px square, and no horizontal overflow is present.
 
 ## Interaction and runtime checks
 
 - Page loaded with meaningful content and no framework error overlay.
 - Browser error log was empty.
-- Interactive snapshot exposed seven ticket links plus the existing Maps and Mesas links.
-- Keyboard focus reached `Saltar al contenido`; activation set `#contenido` and aligned the main content to the viewport top.
-- External destinations were not opened because this change does not alter their URLs or behavior.
+- Interactive snapshot retained the header link labeled `Abrir Instagram de 4SIDE` and all event actions.
+- No external destination was opened because link behavior and URLs were not changed.
 
 ## Implementation checklist
 
-- [x] Remove the numeric event counter from the landing.
-- [x] Reclaim its vertical space so event content moves upward.
-- [x] Preserve event-expiration and empty-state synchronization.
-- [x] Verify desktop and mobile rendering, interactions, errors, and overflow.
+- [x] Remove the visible frame from the header logo.
+- [x] Preserve logo dimensions, position, transparency, and click target.
+- [x] Verify mobile and desktop responsive headers.
+- [x] Check browser errors and horizontal overflow.
 
 final result: passed
