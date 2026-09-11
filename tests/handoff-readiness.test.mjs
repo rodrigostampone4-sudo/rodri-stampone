@@ -20,6 +20,7 @@ const [
   studioLandingUrl,
   studioCli,
   readme,
+  eventExpiration,
 ] =
   await Promise.all([
     readFile(new URL('../astro.config.mjs', import.meta.url), 'utf8'),
@@ -36,6 +37,7 @@ const [
     readFile(new URL('../studio/src/lib/landing-url.ts', import.meta.url), 'utf8'),
     readFile(new URL('../studio/sanity.cli.ts', import.meta.url), 'utf8'),
     readFile(new URL('../README.md', import.meta.url), 'utf8'),
+    readFile(new URL('../src/scripts/event-expiration.ts', import.meta.url), 'utf8'),
   ]);
 
 test('public URLs are configurable and publish complete social metadata', () => {
@@ -62,8 +64,12 @@ test('featured ordering and Sanity crop metadata reach the landing image builder
   assert.match(imageHelper, /\.height\(width\)[\s\S]*?\.fit\('crop'\)/);
 });
 
-test('event status and interactive targets expose stronger accessibility semantics', () => {
-  assert.match(landing, /data-event-count[\s\S]*?role="status"[\s\S]*?aria-live="polite"/);
+test('event presentation omits the numeric counter and preserves expiration behavior', () => {
+  assert.doesNotMatch(landing, /data-event-count|class="event-count"/);
+  assert.doesNotMatch(styles, /\.event-count\s*\{/);
+  assert.doesNotMatch(eventExpiration, /data-event-count/);
+  assert.match(eventExpiration, /if \(!eventList \|\| !emptyState\)/);
+  assert.match(eventExpiration, /eventList\.hidden = visibleEventCount === 0/);
   assert.match(styles, /\.event-venue--maps \{[\s\S]*?min-width: 2\.75rem;[\s\S]*?min-height: 2\.75rem;/);
   assert.match(
     styles,

@@ -183,21 +183,6 @@ svg {
   text-wrap: balance;
 }
 
-.event-count {
-  min-width: 3.5rem;
-  min-height: 2rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: clamp(2rem, 4vw, 3.5rem);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
-  font-family: var(--font-brand);
-  font-size: 0.625rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.12em;
-}
-
 .led-sign {
   width: 100%;
   margin: 0;
@@ -1035,10 +1020,6 @@ a:focus-visible {
   .events-heading h1 {
     font-size: min(16.5vw, 5.25rem);
     line-height: 0.86;
-  }
-
-  .event-count {
-    margin-top: 2rem;
   }
 
   .event-ticket-link {

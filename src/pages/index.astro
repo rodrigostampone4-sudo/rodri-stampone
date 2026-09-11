@@ -201,18 +201,7 @@ const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 120
           <header class="events-intro">
             <div class="events-heading">
               <h1 id="events-heading">Próximos eventos</h1>
-              <span
-                class="event-count"
-                data-event-count
-                role="status"
-                aria-live="polite"
-                aria-atomic="true"
-                aria-label={`${activeEvents.length} ${activeEvents.length === 1 ? 'evento' : 'eventos'}`}
-              >
-                {String(activeEvents.length).padStart(2, '0')}
-              </span>
             </div>
-
           </header>
 
           <ol class="events-list" data-events-list hidden={activeEvents.length === 0}>

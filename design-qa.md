@@ -1,61 +1,66 @@
-# Profile visual QA
+# Events landing visual QA
 
 ## Evidence
 
 The paths below refer to local, non-versioned QA captures. They document the
 validated session but are not runtime inputs or portable repository assets.
 
-- Source visual truth:
-  - `C:\Users\mater\AppData\Local\Temp\codex-clipboard-f6c9692e-58d3-4f5d-9758-53bedf348c8a.png` (762 x 280): the CMS Bio field contains an explicit line break between `Productor 4SIDE` and `TL Elements`.
-  - `C:\Users\mater\AppData\Local\Temp\codex-clipboard-8bf1edac-b12c-4085-ad85-09225da512fc.png` (1766 x 758): the reported desktop profile layout before correction.
+- Source visual truth: `C:\Users\mater\AppData\Local\Temp\codex-clipboard-34f566d7-da1d-4c1f-accd-6c81882ec2be.png` (731 x 738), showing the numeric event counter below the heading.
+- Browser-rendered baseline: `C:\Users\mater\AppData\Local\Temp\rodri-events-before-1440.png` (1440 x 900), CSS viewport 1440 x 900, device pixel ratio 1.
 - Browser-rendered implementation:
-  - `C:\Users\mater\AppData\Local\Temp\rodri-profile-compact-desktop.png` (1766 x 758), CSS viewport 1766 x 758, device pixel ratio 1.
-  - `C:\Users\mater\AppData\Local\Temp\rodri-profile-compact-mobile.png` (375 x 844), CSS viewport 390 x 844, device pixel ratio 1.
-- Combined comparison input: `C:\Users\mater\AppData\Local\Temp\rodri-profile-spacing-qa-comparison.png` (1885 x 1412).
-- State: published Sanity profile content rendered by the local Astro development server.
+  - `C:\Users\mater\AppData\Local\Temp\rodri-events-after-1440.png` (1440 x 900), CSS viewport 1440 x 900, device pixel ratio 1.
+  - `C:\Users\mater\AppData\Local\Temp\rodri-events-after-731.png` (731 x 738), CSS viewport 731 x 738, device pixel ratio 1.
+  - `C:\Users\mater\AppData\Local\Temp\rodri-events-after-390.png` (390 x 844), CSS viewport 390 x 844, device pixel ratio 1.
+- State: published Sanity event content rendered by the local Astro static preview.
+- Density normalization: each implementation capture uses one screenshot pixel per CSS pixel. The user reference and the 731 x 738 implementation were opened together in the same comparison input; the requested delta was also compared against the matching 1440 x 900 baseline to avoid treating pre-existing viewport-scale differences as regressions.
 
 ## Full-view comparison
 
-The combined comparison shows the CMS value, the reported desktop state, the corrected desktop rendering, and the corrected mobile rendering together. The requested desktop relationship is present: the portrait and copy grid items share the same top and bottom edges. The requested Bio line break is visible on both desktop and mobile. The source desktop screenshot and the local implementation use different surrounding page-shell/capture contexts, so unrelated absolute offsets and scale were not treated as fidelity defects.
+The combined source/implementation comparison shows that the boxed numeric
+counter is absent and the released vertical space is used by the event list.
+At 1440 x 900, the heading retained its 226.546875 px top and 193.53125 px
+height, while the list moved from 580.078125 px to 492.078125 px: an 88 px
+upward shift without changing the heading composition. The 390 x 844 view
+keeps the same hierarchy, places the list at 308.015625 px, and has no
+horizontal overflow.
 
-## Focused profile evidence
+## Focused evidence
 
-- Desktop portrait link and profile-copy column: 545.96875 px high, top 176.828125 px, bottom 722.796875 px in the focused viewport.
-- Desktop title-to-Bio and Bio-to-buttons gaps: 32 px each.
-- Desktop Bio: computed `white-space: pre-line`; `innerText` is `Productor 4SIDE\nTL Elements`.
-- Mobile title-to-Bio and Bio-to-buttons gaps: 20 px each.
-- Mobile portrait remains square: 335 x 335 px link and figure.
-- Mobile horizontal overflow: 0 px.
+A separate focused crop was not needed because the removed counter, heading,
+section boundary, and first event row are all clearly readable in the full
+captures. DOM measurements supplied the exact before/after geometry for the
+affected region.
 
 ## Findings
 
-No actionable P0, P1, or P2 visual differences remain in the requested profile changes.
+No actionable P0, P1, or P2 visual differences remain in the requested change.
 
-- Fonts and typography: existing families, weights, sizes, tracking, and line heights are unchanged; only the authored Bio newline is now honored.
-- Spacing and layout rhythm: desktop profile columns align at both edges; the two content gaps are reduced consistently without changing section padding. Mobile receives the same proportional tightening while preserving stacking and square portrait proportions.
-- Colors and visual tokens: unchanged.
-- Image quality and asset fidelity: the existing Sanity image, crop, filtering, border, and inset frame are preserved; desktop uses `object-fit: cover` while matching the copy height.
-- Copy and content: unchanged; the Bio now reflects the CMS-authored line structure.
+- Fonts and typography: the existing heading and event typography, weights, line heights, tracking, wrapping, and antialiasing are unchanged.
+- Spacing and layout rhythm: removing the counter collapses its 56 px top margin and 32 px box height, moving the list upward by 88 px while preserving the established section margin and alignments.
+- Colors and visual tokens: unchanged; no new colors, borders, gradients, or effects were introduced.
+- Image quality and asset fidelity: existing logo and event assets, crops, glow treatment, and responsive image behavior are unchanged.
+- Copy and content: the numeric total is removed; event titles, dates, venues, producers, actions, and empty-state copy are preserved.
 
 ## Comparison history
 
-1. Initial browser capture: Bio `innerText` collapsed to one line because its computed white-space was `normal`; portrait height was 494.921875 px while profile-copy height was 562.296875 px.
-2. Fix applied: preserve Bio newlines with `pre-line`, stretch the desktop grid row, and let the portrait fill that row only above the stacked breakpoint.
-3. Post-fix browser capture: Bio renders on two lines; portrait and copy both measure 593.96875 px. Mobile remains square with no horizontal overflow.
-4. Spacing refinement: both content gaps were reduced to 32 px on desktop and 20 px on mobile. The desktop portrait and copy now both measure 545.96875 px, and mobile remains square with no horizontal overflow.
+1. Baseline at 1440 x 900: the counter was visible from 476.078125 px to 508.078125 px and the first event-list boundary began at 580.078125 px.
+2. Fix applied: remove the counter markup and styles, and decouple client-side expiration synchronization from the removed element.
+3. Post-fix at 1440 x 900: no counter exists; the heading geometry is unchanged and the event list begins at 492.078125 px, 88 px higher.
+4. Responsive pass at 390 x 844: no counter, no framework overlay, no horizontal overflow, and the event list follows the heading with the existing 72 px section gap.
 
 ## Interaction and runtime checks
 
 - Page loaded with meaningful content and no framework error overlay.
-- Browser console contained only Vite connection and hot-update debug messages; no errors.
-- Interactive snapshot exposed the profile, portrait, event, and permanent links.
-- Keyboard focus reached a permanent link and retained its configured Instagram destination without navigating away.
+- Browser error log was empty.
+- Interactive snapshot exposed seven ticket links plus the existing Maps and Mesas links.
+- Keyboard focus reached `Saltar al contenido`; activation set `#contenido` and aligned the main content to the viewport top.
+- External destinations were not opened because this change does not alter their URLs or behavior.
 
 ## Implementation checklist
 
-- [x] Preserve explicit Bio line breaks.
-- [x] Equalize desktop portrait and text-column height.
-- [x] Preserve mobile stacking and square portrait.
-- [x] Check browser errors, focusability, and overflow.
+- [x] Remove the numeric event counter from the landing.
+- [x] Reclaim its vertical space so event content moves upward.
+- [x] Preserve event-expiration and empty-state synchronization.
+- [x] Verify desktop and mobile rendering, interactions, errors, and overflow.
 
 final result: passed

@@ -4,10 +4,9 @@ let expirationTimeout: ReturnType<typeof setTimeout> | undefined;
 
 function synchronizeEventVisibility() {
   const eventList = document.querySelector<HTMLOListElement>('[data-events-list]');
-  const eventCount = document.querySelector<HTMLElement>('[data-event-count]');
   const emptyState = document.querySelector<HTMLElement>('[data-events-empty-state]');
 
-  if (!eventList || !eventCount || !emptyState) {
+  if (!eventList || !emptyState) {
     return;
   }
 
@@ -29,11 +28,6 @@ function synchronizeEventVisibility() {
 
   eventList.hidden = visibleEventCount === 0;
   emptyState.hidden = visibleEventCount !== 0;
-  eventCount.textContent = String(visibleEventCount).padStart(2, '0');
-  eventCount.setAttribute(
-    'aria-label',
-    `${visibleEventCount} ${visibleEventCount === 1 ? 'evento' : 'eventos'}`,
-  );
 
   if (expirationTimeout) {
     clearTimeout(expirationTimeout);
