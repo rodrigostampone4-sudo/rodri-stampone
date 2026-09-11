@@ -775,7 +775,7 @@ a:focus-visible {
   }
 }
 
-@media (min-width: 48rem) and (max-width: 62rem) {
+@media (min-width: 42rem) and (max-width: 62rem) {
   .event-ticket-link {
     align-content: start;
     min-height: 7rem;
@@ -790,9 +790,11 @@ a:focus-visible {
   .event-tables-cta {
     position: relative;
     z-index: 1;
-    margin: -2.75rem 1rem 1rem auto;
+    margin: -4.5rem 1rem 1rem auto;
   }
+}
 
+@media (min-width: 48rem) and (max-width: 62rem) {
   .events-intro {
     grid-template-columns: minmax(0, 0.95fr) minmax(20rem, 1.05fr);
     gap: clamp(1.5rem, 4vw, 2.5rem);
