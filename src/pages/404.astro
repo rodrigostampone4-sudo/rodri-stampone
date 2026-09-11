@@ -1,0 +1,261 @@
+---
+import BrandHead from '../components/BrandHead.astro';
+import '../styles/global.css';
+
+const pageTitle = 'Página no encontrada · Rodrigo Stampone';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <BrandHead />
+    <meta name="robots" content="noindex" />
+    <meta
+      name="description"
+      content="La página solicitada no está disponible. Volvé al inicio de Rodrigo Stampone."
+    />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <div class="page-shell error-shell">
+      <header class="error-header">
+        <a class="error-brand" href="/" aria-label="Volver al inicio de Rodrigo Stampone">
+          <img src="/favicon.svg" width="36" height="36" alt="" />
+          <span>Rodrigo Stampone</span>
+        </a>
+        <span class="error-producer">4SIDE</span>
+      </header>
+
+      <main class="error-main" id="contenido">
+        <p class="error-code" aria-hidden="true">404</p>
+
+        <div class="error-content">
+          <h1>Página no encontrada</h1>
+          <p>El enlace puede haber cambiado o la dirección no es correcta.</p>
+          <a class="error-action" href="/">
+            <span>Volver al inicio</span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M7 17 17 7" />
+              <path d="M8 7h9v9" />
+            </svg>
+          </a>
+        </div>
+      </main>
+
+      <footer class="error-footer">
+        <span>Próximos eventos y links oficiales</span>
+        <span>Buenos Aires</span>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  .error-shell {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .error-header,
+  .error-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+    font-family: var(--font-brand);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .error-header {
+    min-height: 6.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .error-brand {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .error-brand img {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .error-main {
+    min-height: 0;
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr);
+    align-items: stretch;
+    padding-block: clamp(3.5rem, 8vw, 8rem);
+  }
+
+  .error-code {
+    min-width: 0;
+    align-self: center;
+    margin: 0;
+    color: rgb(255 255 255 / 4%);
+    font-family: var(--font-display);
+    font-size: clamp(9rem, 23vw, 22rem);
+    font-weight: 600;
+    letter-spacing: -0.09em;
+    line-height: 0.72;
+    -webkit-text-stroke: 1px var(--color-border-strong);
+  }
+
+  .error-content {
+    align-self: center;
+    max-width: 34rem;
+    padding: clamp(1.5rem, 4vw, 4.5rem) 0 clamp(1.5rem, 4vw, 4.5rem)
+      clamp(2rem, 6vw, 7rem);
+    border-left: 1px solid var(--color-border);
+  }
+
+  .error-content h1 {
+    max-width: 9ch;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 6.5rem);
+    font-weight: 600;
+    letter-spacing: -0.07em;
+    line-height: 0.88;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .error-content p {
+    max-width: 31rem;
+    margin: clamp(1.5rem, 3vw, 2rem) 0 0;
+    color: var(--color-text-muted);
+    font-size: clamp(1rem, 1.4vw, 1.125rem);
+    line-height: 1.65;
+  }
+
+  .error-action {
+    width: fit-content;
+    min-height: 3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-background);
+    font-family: var(--font-brand);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .error-action:hover {
+    border-color: var(--color-accent-bright);
+    background: var(--color-accent-bright);
+  }
+
+  .error-action svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .error-footer {
+    min-height: 7rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 62rem) {
+    .error-main {
+      grid-template-columns: 1fr;
+      align-content: center;
+      padding-block: clamp(4rem, 12vw, 7rem);
+    }
+
+    .error-code {
+      font-size: clamp(9rem, 35vw, 18rem);
+    }
+
+    .error-content {
+      max-width: 42rem;
+      margin-top: clamp(3rem, 7vw, 5rem);
+      padding: clamp(2rem, 5vw, 3rem) 0 0;
+      border-top: 1px solid var(--color-border);
+      border-left: 0;
+    }
+
+    .error-content h1 {
+      font-size: clamp(3.5rem, 10vw, 6rem);
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .error-header {
+      min-height: 4.5rem;
+    }
+
+    .error-brand span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .error-main {
+      padding-block: 4rem;
+    }
+
+    .error-code {
+      font-size: min(43vw, 10.5rem);
+    }
+
+    .error-content {
+      margin-top: 3rem;
+      padding-top: 2rem;
+    }
+
+    .error-content h1 {
+      font-size: min(14vw, 4.25rem);
+    }
+
+    .error-action {
+      min-height: 3.25rem;
+    }
+
+    .error-footer {
+      min-height: 6rem;
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+  }
+</style>
