@@ -29,6 +29,9 @@ test('Studio exposes an editable producer catalog', () => {
   assert.match(producerSchema, /name: 'producer'/);
   assert.match(producerSchema, /title: 'Productora'/);
   assert.match(producerSchema, /name: 'name'[\s\S]*?Rule\.required\(\)/);
+  assert.match(producerSchema, /name: 'logo'[\s\S]*?type: 'image'/);
+  assert.doesNotMatch(producerSchema, /name: 'logo'[\s\S]*?Rule\.required\(\)/);
+  assert.match(producerSchema, /media: 'logo'/);
   assert.match(schemaIndex, /import producer from '\.\/producer'/);
   assert.match(schemaIndex, /schemaTypes = \[siteSettings, event, venue, producer\]/);
   assert.match(studioConfig, /title\('Productoras'\)[\s\S]*?documentTypeList\('producer'\)/);

@@ -11,10 +11,16 @@ export default defineType({
       type: 'string',
       validation: (Rule) => Rule.required().error('El nombre de la productora es obligatorio.'),
     }),
+    defineField({
+      name: 'logo',
+      title: 'Logo (opcional)',
+      type: 'image',
+    }),
   ],
   preview: {
     select: {
       title: 'name',
+      media: 'logo',
     },
   },
 });
