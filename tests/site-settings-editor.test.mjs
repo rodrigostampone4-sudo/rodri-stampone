@@ -2,11 +2,13 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [actions, config, input, schema] = await Promise.all([
+const [actions, config, input, landingLinkIcon, schema, studioLinkIcon] = await Promise.all([
   readFile(new URL('../studio/src/lib/document-actions.ts', import.meta.url), 'utf8'),
   readFile(new URL('../studio/sanity.config.ts', import.meta.url), 'utf8'),
   readFile(new URL('../studio/src/components/SiteSettingsInput.tsx', import.meta.url), 'utf8'),
+  readFile(new URL('../src/components/PermanentLinkIcon.astro', import.meta.url), 'utf8'),
   readFile(new URL('../studio/schemaTypes/siteSettings.ts', import.meta.url), 'utf8'),
+  readFile(new URL('../studio/src/components/PermanentLinkIcon.tsx', import.meta.url), 'utf8'),
 ]);
 
 test('Links and Perfil open the native site settings document directly', () => {
@@ -43,4 +45,22 @@ test('links expose one semantic personal Instagram destination at most', () => {
   assert.match(schema, /title: 'Instagram personal', value: 'profileInstagram'/);
   assert.match(schema, /link\?\.kind === 'profileInstagram'/);
   assert.match(schema, /profileLinks\.length <= 1/);
+});
+
+test('Studio link previews reuse the landing icon for each semantic kind', () => {
+  assert.match(schema, /kind: 'kind'/);
+  assert.match(schema, /media: renderPermanentLinkIcon\(kind\)/);
+  assert.match(
+    studioLinkIcon,
+    /iconKind === 'profileInstagram' \|\| iconKind === 'instagram'/,
+  );
+
+  for (const kind of ['whatsapp', 'tables', 'whatsappGroup', 'custom']) {
+    assert.match(studioLinkIcon, new RegExp(`iconKind === '${kind}'`));
+  }
+
+  const extractShapes = (source) =>
+    [...source.matchAll(/<(?:rect|circle|path)\b[^>]*\/>/g)].map(([shape]) => shape);
+
+  assert.deepEqual(extractShapes(studioLinkIcon), extractShapes(landingLinkIcon));
 });

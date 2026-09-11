@@ -1,5 +1,6 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
+import { renderPermanentLinkIcon } from '../src/components/PermanentLinkIcon';
 import { SiteSettingsInput } from '../src/components/SiteSettingsInput';
 
 const permanentLinkKinds = [
@@ -109,6 +110,14 @@ export default defineType({
             select: {
               title: 'label',
               subtitle: 'url',
+              kind: 'kind',
+            },
+            prepare({ title, subtitle, kind }) {
+              return {
+                title,
+                subtitle,
+                media: renderPermanentLinkIcon(kind),
+              };
             },
           },
         }),
