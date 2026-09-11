@@ -1061,8 +1061,10 @@ a:focus-visible {
     grid-column: 2 / 4;
     grid-row: 2;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem;
+    column-gap: 0.25rem;
+    row-gap: 0;
     padding-right: 6.75rem;
   }
 

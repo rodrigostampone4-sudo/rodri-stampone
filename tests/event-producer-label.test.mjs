@@ -29,7 +29,7 @@ test('event cards render the producer as non-interactive metadata', () => {
   );
   assert.match(
     styles,
-    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-meta \{[\s\S]*?grid-column: 2 \/ 4;[\s\S]*?grid-row: 2;[\s\S]*?display: flex;[\s\S]*?align-items: center;[\s\S]*?gap: 0\.5rem;[\s\S]*?padding-right: 6\.75rem;/,
+    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-meta \{[\s\S]*?grid-column: 2 \/ 4;[\s\S]*?grid-row: 2;[\s\S]*?display: flex;[\s\S]*?flex-wrap: wrap;[\s\S]*?align-items: center;[\s\S]*?column-gap: 0\.25rem;[\s\S]*?row-gap: 0;[\s\S]*?padding-right: 6\.75rem;/,
   );
   assert.match(
     styles,
