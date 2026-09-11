@@ -210,6 +210,7 @@ const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 120
                 const tablesUrl = tablesLink
                   ? buildEventTablesWhatsAppUrl(tablesLink.url, event)
                   : undefined;
+                const wrapsMobileVenue = event.venue.trim().length > 8;
 
                 return (
                   <li class="event-item" data-event-expires-at={expirationTime}>
@@ -226,7 +227,12 @@ const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 120
                         <span>{formattedDate.month}</span>
                       </time>
                       <span class="event-title">{event.title}</span>
-                      <span class="event-meta">
+                      <span
+                        class:list={[
+                          'event-meta',
+                          { 'event-meta--wrapped-venue': wrapsMobileVenue },
+                        ]}
+                      >
                         {event.venueMapsUrl ? (
                           <a
                             class="event-venue event-venue--maps"
