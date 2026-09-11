@@ -103,6 +103,7 @@ export const EventsPane: UserComponent = () => {
           />
         </>
       }
+      contentGap={3}
       description="Administrá las fechas que aparecen en la landing."
       title="Eventos"
     >
@@ -140,7 +141,7 @@ export const EventsPane: UserComponent = () => {
         </Stack>
       </PanelCard>
 
-      <section aria-labelledby="rs-events-list-title">
+      <Stack as="section" gap={3} aria-labelledby="rs-events-list-title">
         <SectionTitle>
           <span id="rs-events-list-title">
             {tab === 'upcoming' ? 'Próximos eventos' : tab === 'past' ? 'Eventos pasados' : 'Todos los eventos'}
@@ -193,7 +194,7 @@ export const EventsPane: UserComponent = () => {
             ))}
           </div>
         </PanelCard>
-      </section>
+      </Stack>
     </PaneLayout>
   );
 };

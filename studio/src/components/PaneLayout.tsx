@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import { ArrowTopRightIcon } from '@sanity/icons/ArrowTopRight';
 import { Box, Card, Heading, Stack, Text } from '@sanity/ui';
 
@@ -8,6 +8,7 @@ import './studio.css';
 interface PaneLayoutProps {
   actions?: ReactNode;
   children: ReactNode;
+  contentGap?: ComponentProps<typeof Stack>['gap'];
   description: string;
   eyebrow?: string;
   title: string;
@@ -16,6 +17,7 @@ interface PaneLayoutProps {
 export function PaneLayout({
   actions,
   children,
+  contentGap = 4,
   description,
   eyebrow = 'Panel de contenido',
   title,
@@ -49,7 +51,7 @@ export function PaneLayout({
               </a>
             </div>
 
-            <Stack gap={4}>{children}</Stack>
+            <Stack gap={contentGap}>{children}</Stack>
           </div>
         </Box>
       </div>
