@@ -1,62 +1,54 @@
-# Header logo visual QA
+# Mobile event metadata visual QA
 
 ## Evidence
 
-The screenshot files below are local QA evidence and are not runtime inputs.
-
-- Source visual truth: `C:\Users\mater\AppData\Local\Temp\codex-clipboard-da8555a4-8491-4762-b5b4-712eeab8027d.png` (206 x 183), showing the framed 4SIDE mark selected for removal.
-- Browser-rendered baseline: `C:\Users\mater\.codex\visualizations\2026\09\11\01a08ee4-43bd-7a81-83e4-d4c24d0bcae5\rodri-logo-before-390.png` (390 x 844), CSS viewport 390 x 844, device pixel ratio 1.
+- Source visual truth: `C:\Users\mater\AppData\Local\Temp\codex-clipboard-303c57ca-21d5-450f-95a9-2eecaf308dde.png` (449 x 559). It shows the reported mobile state at 375 x 812 and 390 x 844.
 - Browser-rendered implementation:
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08ee4-43bd-7a81-83e4-d4c24d0bcae5\rodri-logo-after-390.png` (390 x 844), CSS viewport 390 x 844, device pixel ratio 1.
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08ee4-43bd-7a81-83e4-d4c24d0bcae5\rodri-logo-after-1440.png` (1440 x 900), CSS viewport 1440 x 900, device pixel ratio 1.
-- State: published Sanity content rendered by the local Astro static preview.
-- Density normalization: implementation captures use one screenshot pixel per CSS pixel. Baseline and implementation were compared together at the same 390 x 844 viewport and page state.
+  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\event-meta-top-aligned-list-375.png` (375 x 812), CSS viewport 375 x 812, device pixel ratio 1.
+  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\event-meta-top-aligned-focus-390.png` (390 x 844), CSS viewport 390 x 844, device pixel ratio 1.
+- Combined comparison: `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\event-meta-source-vs-adjusted-375.png` (774 x 815).
+- State: published Sanity events rendered by the local Astro static preview.
+- Density normalization: the 375 px source frame was cropped from the responsive-tester screenshot at 206 x 448 and scaled to 375 x 815. The implementation was captured at one screenshot pixel per CSS pixel. The surrounding tester chrome was excluded from the focused comparison.
 
 ## Full-view comparison
 
-The mobile before/after comparison confirms that the square border disappears
-without changing the logo position, header height, neon sign, handle, event
-heading, or first event row. The desktop capture confirms the same treatment at
-the wider responsive header.
+The normalized comparison shows the same event sequence and mobile card structure. The venue and producer remain side by side in one metadata row. `Club Araoz` now uses the available venue width instead of breaking after `Club`, while `Punta Carrasco` keeps its intentional two-line wrap. The producer chip aligns with the first venue line rather than dropping toward the second line.
 
-## Focused logo evidence
+No horizontal viewport overflow is present at 375 x 812 or 390 x 844. Ticket and table actions retain their original columns and dimensions.
 
-The logo is readable at full size in the 390 px captures, so no additional crop
-was required. Before the change, the image had a `1px solid` border using the
-14% white border token. After the change, the computed border is `0px none`.
-Mobile image geometry remains 34.0625 x 34.0625 px at left 25.84375 px and top
-13.640625 px. Desktop image geometry remains 68.796875 x 68.796875 px. The
-mobile link retains a 44 px height.
+## Focused metadata evidence
+
+The venue and producer details are legible in the normalized comparison, so no additional crop was needed. Browser measurements at 375 px show a `0px` top-offset difference between every venue box and its producer chip. At 390 px, both `Club Araoz` and `Punta Carrasco` also have a `0px` top-offset difference. `Punta Carrasco` remains two lines while its chip stays aligned with `Punta`.
 
 ## Findings
 
-No actionable P0, P1, or P2 visual differences remain in the requested change.
+No actionable P0, P1, or P2 visual differences remain in the requested metadata adjustment.
 
-- Fonts and typography: unchanged across the header, event heading, and event list.
-- Spacing and layout rhythm: logo dimensions, offsets, header line, and clickable-area geometry are unchanged; only the visible frame is removed.
-- Colors and visual tokens: the border token is no longer applied to the logo; all other header colors and glow treatments remain unchanged.
-- Image quality and asset fidelity: the existing transparent `/favicon.svg` asset remains sharp and unmodified at both responsive sizes.
-- Copy and content: unchanged.
+- Fonts and typography: families, sizes, weights, line heights, and title wrapping are unchanged. Venue wrapping changes only where the available narrow-screen width permits it.
+- Spacing and layout rhythm: metadata remains a two-column row; the producer chip is top-aligned with the venue and stays close to its left edge.
+- Colors and visual tokens: venue, chip, border, and accent colors are unchanged.
+- Image quality and asset fidelity: no image assets are involved in this adjustment.
+- Copy and content: event, venue, and producer text is unchanged.
 
 ## Comparison history
 
-1. Baseline at 390 x 844: logo border computed as `1px solid rgba(255, 255, 255, 0.14)`; image measured 34.0625 px square and link height measured 44 px.
-2. Fix applied: remove only the border declaration from `.brand-link img`.
-3. Post-fix at 390 x 844: border computes as `0px none`; image position and dimensions match the baseline exactly.
-4. Desktop pass at 1440 x 900: border remains absent, logo measures 68.796875 px square, and no horizontal overflow is present.
+1. Source state: multi-line venues visually placed the producer chip near the second line, and `Club Araoz` wrapped despite fitting at the target viewport.
+2. Width correction already present: narrow metadata uses a 5.5rem venue track at 375-432 px and preserves the 4rem fallback below 336 px.
+3. Current fix: top-align the metadata grid, mapped venue link, and producer chip for all viewports up to 432 px.
+4. Post-fix evidence: at 375 px and 390 px, venue and producer top edges match exactly; `Club Araoz` is one line, `Punta Carrasco` is two lines, and no horizontal overflow is present.
 
 ## Interaction and runtime checks
 
-- Page loaded with meaningful content and no framework error overlay.
-- Browser error log was empty.
-- Interactive snapshot retained the header link labeled `Abrir Instagram de 4SIDE` and all event actions.
-- No external destination was opened because link behavior and URLs were not changed.
+- The local page loaded with meaningful published event content and no framework error overlay.
+- Browser error output was empty.
+- The interactive snapshot retained the mapped venue links plus every Tickets and Mesas action.
+- External destinations were not opened because link behavior and URLs were not changed.
 
 ## Implementation checklist
 
-- [x] Remove the visible frame from the header logo.
-- [x] Preserve logo dimensions, position, transparency, and click target.
-- [x] Verify mobile and desktop responsive headers.
-- [x] Check browser errors and horizontal overflow.
+- [x] Keep venue and producer parallel in one metadata row.
+- [x] Align producer chips with the first venue line at 375 px and 390 px.
+- [x] Preserve the compact fallback below 336 px.
+- [x] Verify browser rendering, interactions, and horizontal overflow.
 
 final result: passed

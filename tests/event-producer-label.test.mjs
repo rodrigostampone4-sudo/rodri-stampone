@@ -33,7 +33,7 @@ test('event cards render the producer as non-interactive metadata', () => {
   );
   assert.match(
     styles,
-    /@media \(max-width: 27rem\) \{[\s\S]*?\.event-meta \{[\s\S]*?display: grid;[\s\S]*?grid-template-columns: fit-content\(5\.5rem\) auto;[\s\S]*?justify-content: start;/,
+    /@media \(max-width: 27rem\) \{[\s\S]*?\.event-meta \{[\s\S]*?display: grid;[\s\S]*?align-items: start;[\s\S]*?grid-template-columns: fit-content\(5\.5rem\) auto;[\s\S]*?justify-content: start;[\s\S]*?\.event-venue--maps \{[\s\S]*?align-items: flex-start;[\s\S]*?\.event-producer \{[\s\S]*?align-self: start;/,
   );
   assert.match(
     styles,
@@ -41,7 +41,7 @@ test('event cards render the producer as non-interactive metadata', () => {
   );
   assert.match(
     styles,
-    /@media \(max-width: 21rem\) \{[\s\S]*?\.event-meta \{[\s\S]*?align-items: start;[\s\S]*?grid-template-columns: fit-content\(4rem\) auto;[\s\S]*?\.event-venue--maps \{[\s\S]*?align-items: flex-start;[\s\S]*?\.event-producer \{[\s\S]*?align-self: start;/,
+    /@media \(max-width: 21rem\) \{[\s\S]*?\.event-meta \{[\s\S]*?grid-template-columns: fit-content\(4rem\) auto;[\s\S]*?\.event-producer \{[\s\S]*?min-width: 0;[\s\S]*?max-width: 100%;[\s\S]*?white-space: normal;/,
   );
   assert.match(
     styles,
@@ -69,7 +69,7 @@ test('only 4SIDE receives the continuous orbiting border reflection', () => {
 test('mobile event titles wrap without competing with actions or metadata', () => {
   assert.match(
     styles,
-    /@media \(max-width: 21rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?grid-template-columns: 2\.5rem minmax\(0, 1fr\) auto;[\s\S]*?gap: 0\.375rem;[\s\S]*?\.event-meta \{[\s\S]*?align-items: start;[\s\S]*?\.event-producer \{[\s\S]*?min-width: 0;[\s\S]*?max-width: 100%;[\s\S]*?white-space: normal;/,
+    /@media \(max-width: 21rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?grid-template-columns: 2\.5rem minmax\(0, 1fr\) auto;[\s\S]*?gap: 0\.375rem;[\s\S]*?\.event-meta \{[\s\S]*?grid-template-columns: fit-content\(4rem\) auto;[\s\S]*?\.event-producer \{[\s\S]*?min-width: 0;[\s\S]*?max-width: 100%;[\s\S]*?white-space: normal;/,
   );
   assert.match(
     styles,

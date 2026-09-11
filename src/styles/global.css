@@ -1114,8 +1114,17 @@ a:focus-visible {
 @media (max-width: 27rem) {
   .event-meta {
     display: grid;
+    align-items: start;
     grid-template-columns: fit-content(5.5rem) auto;
     justify-content: start;
+  }
+
+  .event-venue--maps {
+    align-items: flex-start;
+  }
+
+  .event-producer {
+    align-self: start;
   }
 }
 
@@ -1126,18 +1135,12 @@ a:focus-visible {
   }
 
   .event-meta {
-    align-items: start;
     grid-template-columns: fit-content(4rem) auto;
-  }
-
-  .event-venue--maps {
-    align-items: flex-start;
   }
 
   .event-producer {
     min-width: 0;
     max-width: 100%;
-    align-self: start;
     white-space: normal;
   }
 }
