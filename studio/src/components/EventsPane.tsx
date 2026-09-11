@@ -2,7 +2,7 @@ import { AddIcon } from '@sanity/icons/Add';
 import { EditIcon } from '@sanity/icons/Edit';
 import { RefreshIcon } from '@sanity/icons/Refresh';
 import { SearchIcon } from '@sanity/icons/Search';
-import { Badge, Button, Stack, Text, TextInput } from '@sanity/ui';
+import { Badge, Button, Stack, TextInput } from '@sanity/ui';
 import { useMemo, useState } from 'react';
 import { IntentButton } from 'sanity';
 import type { UserComponent } from 'sanity/desk';
@@ -194,11 +194,6 @@ export const EventsPane: UserComponent = () => {
           </div>
         </PanelCard>
       </section>
-
-      <Text className="rs-note" muted size={1}>
-        El estado se calcula con la visibilidad del evento y la fecha de expiración configurada. Los
-        cambios quedan pendientes y solo se hacen públicos cuando los publiques desde el editor nativo.
-      </Text>
     </PaneLayout>
   );
 };
