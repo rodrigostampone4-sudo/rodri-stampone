@@ -1,7 +1,10 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
 import { renderPermanentLinkIcon } from '../src/components/PermanentLinkIcon';
-import { SiteSettingsInput } from '../src/components/SiteSettingsInput';
+import {
+  SiteSettingsInput,
+  SiteSettingsLinksField,
+} from '../src/components/SiteSettingsInput';
 
 const permanentLinkKinds = [
   { title: 'Instagram personal', value: 'profileInstagram' },
@@ -67,10 +70,11 @@ export default defineType({
     defineField({
       name: 'links',
       title: 'Links',
-      description:
-        'Arrastrá los links para cambiar el orden de presentación. Usá “Instagram personal” para el perfil de Rodrigo.',
       type: 'array',
       group: 'links',
+      components: {
+        field: SiteSettingsLinksField,
+      },
       of: [
         defineArrayMember({
           name: 'permanentLink',

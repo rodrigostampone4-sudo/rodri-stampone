@@ -1,7 +1,7 @@
 import { ArrowTopRightIcon } from '@sanity/icons/ArrowTopRight';
 import { Heading, Text } from '@sanity/ui';
 import { useEffect } from 'react';
-import type { ObjectInputProps } from 'sanity';
+import type { FieldProps, ObjectInputProps } from 'sanity';
 import { usePaneRouter } from 'sanity/structure';
 
 import { landingUrl } from '../lib/landing-url';
@@ -11,12 +11,12 @@ type SettingsSection = 'links' | 'profile';
 
 const sectionConfig: Record<
   SettingsSection,
-  { description: string; fieldNames: string[]; note: string; title: string }
+  { description: string; fieldNames: string[]; note?: string; title: string }
 > = {
   links: {
-    description: 'Agregá, editá y ordená los accesos que aparecen en la landing.',
+    description:
+      'Agregá, editá y ordená los accesos que aparecen en la landing. Para cambiar el orden de presentación, arrastralos.',
     fieldNames: ['links'],
-    note: 'El orden del editor es el orden de presentación. Podés arrastrar cada link para reubicarlo.',
     title: 'Links permanentes',
   },
   profile: {
@@ -37,6 +37,15 @@ function getSettingsSection(routerPanesState: ReturnType<typeof usePaneRouter>['
   }
 
   return undefined;
+}
+
+export function SiteSettingsLinksField(props: FieldProps) {
+  const { routerPanesState } = usePaneRouter();
+  const section = getSettingsSection(routerPanesState);
+
+  return props.renderDefault(
+    section === 'links' ? { ...props, description: undefined, title: undefined } : props,
+  );
 }
 
 export function SiteSettingsInput(props: ObjectInputProps) {
@@ -96,9 +105,11 @@ export function SiteSettingsInput(props: ObjectInputProps) {
         </div>
       )}
 
-      <Text className="rs-settings-editor__note" muted size={1}>
-        {config.note}
-      </Text>
+      {config.note ? (
+        <Text className="rs-settings-editor__note" muted size={1}>
+          {config.note}
+        </Text>
+      ) : null}
     </div>
   );
 }

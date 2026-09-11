@@ -26,6 +26,19 @@ test('the singleton form exposes only the fields for the selected panel destinat
   assert.match(input, /Edición directa/);
 });
 
+test('the Links panel exposes one concise presentation before the native editor', () => {
+  assert.match(input, /title: 'Links permanentes'/);
+  assert.match(
+    input,
+    /Agregá, editá y ordená los accesos que aparecen en la landing\. Para cambiar el orden de presentación, arrastralos\./,
+  );
+  assert.doesNotMatch(input, /Instagram personal/);
+  assert.doesNotMatch(input, /El orden del editor es el orden de presentación/);
+  assert.match(input, /section === 'links' \? \{ \.\.\.props, description: undefined, title: undefined \}/);
+  assert.match(schema, /name: 'links'[\s\S]*?field: SiteSettingsLinksField/);
+  assert.doesNotMatch(schema, /Arrastrá los links para cambiar el orden de presentación/);
+});
+
 test('site settings cannot be created, duplicated, unpublished or deleted accidentally', () => {
   assert.match(actions, /blockedSingletonActions = new Set\(\['delete', 'duplicate', 'unpublish'\]\)/);
   assert.match(actions, /schemaType === 'siteSettings'/);
