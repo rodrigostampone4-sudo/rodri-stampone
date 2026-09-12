@@ -19,7 +19,7 @@ const [
   studioPackage,
   studioLandingUrl,
   studioCli,
-  readme,
+  architecture,
   eventExpiration,
 ] =
   await Promise.all([
@@ -36,7 +36,7 @@ const [
     readFile(new URL('../studio/package.json', import.meta.url), 'utf8'),
     readFile(new URL('../studio/src/lib/landing-url.ts', import.meta.url), 'utf8'),
     readFile(new URL('../studio/sanity.cli.ts', import.meta.url), 'utf8'),
-    readFile(new URL('../README.md', import.meta.url), 'utf8'),
+    readFile(new URL('../docs/architecture.md', import.meta.url), 'utf8'),
     readFile(new URL('../src/scripts/event-expiration.ts', import.meta.url), 'utf8'),
   ]);
 
@@ -117,8 +117,8 @@ test('runtime versions and owner-dependent Studio URL are explicit', () => {
 test('Sanity resolves only the externally hosted CMS', () => {
   assert.match(studioCli, /deployment:\s*\{\s*appId: 'u277093a0fs9666mf12iu8hk'/);
   assert.doesNotMatch(studioCli, /studioHost/);
-  assert.match(readme, /sanity deploy --external --schema-required/);
-  assert.doesNotMatch(readme, /rodristampone\.sanity\.studio/);
+  assert.match(architecture, /sanity deploy --external --schema-required/);
+  assert.doesNotMatch(architecture, /rodristampone\.sanity\.studio/);
 });
 
 test('the temporary public content inventory route is removed', async () => {

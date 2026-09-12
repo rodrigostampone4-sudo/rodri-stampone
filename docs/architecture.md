@@ -48,7 +48,8 @@ canonical. Sanity Studio se publica por separado desde `studio/`, también con
 
 El CMS de Vercel es la única interfaz pública del Studio. Sanity mantiene el
 registro externo del workspace y sus schemas, pero no se publica una segunda
-copia alojada del Studio.
+copia alojada del Studio. Ese registro se actualiza desde `studio/` con
+`sanity deploy --external --schema-required`.
 
 Como Vercel trata `studio/` como Root Directory, el código del CMS debe ser
 autocontenido dentro de esa carpeta. No puede importar módulos del frontend. La
