@@ -36,3 +36,14 @@ test('Studio not-found screen does not redirect or animate', () => {
   assert.doesNotMatch(notFound, /window\.location|location\.(?:assign|replace)|setTimeout/);
   assert.doesNotMatch(notFoundStyles, /animation\s*:|@keyframes|transition\s*:/);
 });
+
+test('Studio not-found screen stays within the available viewport height', () => {
+  assert.match(
+    styles,
+    /\.rs-studio-not-found \{[\s\S]*?height: 100%;[\s\S]*?min-height: 0;[\s\S]*?overflow: hidden;/,
+  );
+  assert.match(
+    styles,
+    /\.rs-studio-not-found__main \{[\s\S]*?overflow-y: auto;[\s\S]*?padding: clamp\(24px, 4vh, 48px\)/,
+  );
+});

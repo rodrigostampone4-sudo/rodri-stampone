@@ -565,8 +565,10 @@
   --rs-not-found-focus: var(--card-focus-ring-color);
   --rs-not-found-accent: #ff8a1f;
   display: flex;
-  min-height: 100%;
+  height: 100%;
+  min-height: 0;
   flex-direction: column;
+  overflow: hidden;
   color: var(--rs-not-found-fg);
 }
 
@@ -577,7 +579,7 @@
   place-items: center;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: clamp(32px, 7vw, 88px) clamp(20px, 5vw, 64px);
+  padding: clamp(24px, 4vh, 48px) clamp(20px, 5vw, 64px);
 }
 
 .rs-studio-not-found__content {
@@ -680,7 +682,7 @@
 @media (max-width: 430px) {
   .rs-studio-not-found__main {
     align-items: start;
-    padding-block: 48px;
+    padding-block: clamp(24px, 5vh, 40px);
   }
 
   .rs-studio-not-found__content::before,
