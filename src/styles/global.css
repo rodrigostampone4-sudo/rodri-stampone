@@ -342,6 +342,10 @@ svg {
     border-color var(--transition-fast);
 }
 
+.event-info {
+  display: contents;
+}
+
 .event-ticket-overlay {
   position: absolute;
   inset: 0;
@@ -1028,9 +1032,19 @@ a:focus-visible {
     min-height: 5.75rem;
     grid-template-columns: 3.25rem minmax(0, 1fr) auto;
     column-gap: 0.5rem;
-    row-gap: 0.25rem;
+    row-gap: 0;
     padding-block: 0.75rem;
     padding-inline: 0;
+  }
+
+  .event-info {
+    min-width: 0;
+    grid-column: 2 / 4;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.4375rem;
+    padding-right: 6.75rem;
   }
 
   .event-ticket-overlay,
@@ -1044,6 +1058,8 @@ a:focus-visible {
   }
 
   .event-actions {
+    grid-column: 3;
+    grid-row: 1;
     align-self: start;
   }
 
@@ -1057,18 +1073,20 @@ a:focus-visible {
   }
 
   .event-title {
+    grid-column: 1;
+    grid-row: 1;
     font-size: 1.3rem;
   }
 
   .event-meta {
-    grid-column: 2 / 4;
+    grid-column: 1;
     grid-row: 2;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
     justify-items: start;
     row-gap: 0.25rem;
-    padding-right: 6.75rem;
+    padding-right: 0;
   }
 
   .event-venue,
@@ -1123,7 +1141,7 @@ a:focus-visible {
   .event-ticket-link {
     grid-template-columns: 2.5rem minmax(0, 1fr) auto;
     column-gap: 0.375rem;
-    row-gap: 0.25rem;
+    row-gap: 0;
   }
 }
 

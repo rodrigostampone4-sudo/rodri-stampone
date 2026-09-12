@@ -20,7 +20,7 @@ test('the landing projects and types the managed event producer', () => {
 test('event cards render the producer as non-interactive metadata', () => {
   assert.match(
     landing,
-    /class="event-meta"[\s\S]*?class="event-venue event-venue--maps"[\s\S]*?class:list=\{\[[\s\S]*?'event-producer'/,
+    /class="event-info"[\s\S]*?class="event-title"[\s\S]*?class="event-meta"[\s\S]*?class="event-venue event-venue--maps"[\s\S]*?class:list=\{\[[\s\S]*?'event-producer'/,
   );
   assert.doesNotMatch(landing, /wrapsMobileVenue|event-meta--wrapped-venue/);
   assert.match(landing, /productora \$\{event\.producer\}/);
@@ -30,7 +30,11 @@ test('event cards render the producer as non-interactive metadata', () => {
   );
   assert.match(
     styles,
-    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-meta \{[\s\S]*?grid-column: 2 \/ 4;[\s\S]*?grid-row: 2;[\s\S]*?display: grid;[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?align-items: start;[\s\S]*?justify-items: start;[\s\S]*?row-gap: 0\.25rem;[\s\S]*?padding-right: 6\.75rem;/,
+    /\.event-info \{[\s\S]*?display: contents;[\s\S]*?@media \(max-width: 42rem\) \{[\s\S]*?\.event-info \{[\s\S]*?grid-column: 2 \/ 4;[\s\S]*?grid-row: 1;[\s\S]*?display: grid;[\s\S]*?row-gap: 0\.4375rem;[\s\S]*?padding-right: 6\.75rem;/,
+  );
+  assert.match(
+    styles,
+    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-meta \{[\s\S]*?grid-column: 1;[\s\S]*?grid-row: 2;[\s\S]*?display: grid;[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?align-items: start;[\s\S]*?justify-items: start;[\s\S]*?row-gap: 0\.25rem;[\s\S]*?padding-right: 0;/,
   );
   assert.match(
     styles,
@@ -67,11 +71,19 @@ test('only 4SIDE receives the continuous orbiting border reflection', () => {
 test('mobile event titles wrap without competing with actions or metadata', () => {
   assert.match(
     styles,
-    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?column-gap: 0\.5rem;[\s\S]*?row-gap: 0\.25rem;/,
+    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?column-gap: 0\.5rem;[\s\S]*?row-gap: 0;/,
   );
   assert.match(
     styles,
-    /@media \(max-width: 22rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?grid-template-columns: 2\.5rem minmax\(0, 1fr\) auto;[\s\S]*?column-gap: 0\.375rem;[\s\S]*?row-gap: 0\.25rem;/,
+    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-actions \{[\s\S]*?grid-column: 3;[\s\S]*?grid-row: 1;/,
+  );
+  assert.match(
+    styles,
+    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-title \{[\s\S]*?grid-column: 1;[\s\S]*?grid-row: 1;/,
+  );
+  assert.match(
+    styles,
+    /@media \(max-width: 22rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?grid-template-columns: 2\.5rem minmax\(0, 1fr\) auto;[\s\S]*?column-gap: 0\.375rem;[\s\S]*?row-gap: 0;/,
   );
   assert.match(
     styles,

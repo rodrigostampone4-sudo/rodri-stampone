@@ -225,28 +225,30 @@ const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 120
                         <strong>{formattedDate.day}</strong>
                         <span>{formattedDate.month}</span>
                       </time>
-                      <span class="event-title">{event.title}</span>
-                      <span class="event-meta">
-                        {event.venueMapsUrl ? (
-                          <a
-                            class="event-venue event-venue--maps"
-                            href={event.venueMapsUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`Abrir ubicación de ${event.venue} en Google Maps`}
+                      <span class="event-info">
+                        <span class="event-title">{event.title}</span>
+                        <span class="event-meta">
+                          {event.venueMapsUrl ? (
+                            <a
+                              class="event-venue event-venue--maps"
+                              href={event.venueMapsUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              aria-label={`Abrir ubicación de ${event.venue} en Google Maps`}
+                            >
+                              {event.venue}
+                            </a>
+                          ) : (
+                            <span class="event-venue">{event.venue}</span>
+                          )}
+                          <span
+                            class:list={[
+                              'event-producer',
+                              { 'event-producer--4side': event.producerId === 'producer-4side' },
+                            ]}
                           >
-                            {event.venue}
-                          </a>
-                        ) : (
-                          <span class="event-venue">{event.venue}</span>
-                        )}
-                        <span
-                          class:list={[
-                            'event-producer',
-                            { 'event-producer--4side': event.producerId === 'producer-4side' },
-                          ]}
-                        >
-                          {event.producer}
+                            {event.producer}
+                          </span>
                         </span>
                       </span>
                       <span class="event-actions">

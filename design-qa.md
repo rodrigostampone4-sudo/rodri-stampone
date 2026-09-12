@@ -1,59 +1,68 @@
-# Three-row mobile event metadata visual QA
+# Mobile event information spacing visual QA
 
 ## Evidence
 
 - Source visual truth:
-  - User requirement: on mobile, event information uses three visual levels: artist, venue, and producer. Artist names may use two lines; venue and producer each remain on one line. Tablet and desktop stay unchanged.
-  - `C:\Dev\repos\active\Rodri Stampone\.codex-remote-attachments\01a08f02-8431-7ea1-b585-8ad49d088984\400f38c5-edeb-4f30-9b26-e23435210de4\1-Photo-1.jpg` (653 x 1280), real-device evidence for the narrow event-card layout.
+  - User requirement: on mobile only, artist, venue, and producer remain three visual levels; artist may wrap to two lines, while venue and producer stay on one line. The artist-to-venue and venue-to-producer spacing should read as equal. Tablet and desktop stay unchanged.
+  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\single-line-gap-proposal-final-375.png` (375 x 812), the selected browser-rendered proposal.
+  - `C:\Dev\repos\active\Rodri Stampone\.codex-remote-attachments\01a08f02-8431-7ea1-b585-8ad49d088984\400f38c5-edeb-4f30-9b26-e23435210de4\1-Photo-1.jpg` (653 x 1280), original real-device evidence.
 - Browser-rendered implementation:
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\three-row-mobile-final-320.png` (320 x 812).
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\three-row-mobile-final-337.png` (337 x 812).
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\three-row-mobile-final-360.png` (360 x 800).
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\three-row-mobile-final-375.png` (375 x 812).
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\three-row-mobile-final-390.png` (390 x 844).
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\three-row-mobile-final-672.png` (672 x 900), final mobile breakpoint.
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\three-row-mobile-final-673.png` (673 x 900), first non-mobile pixel.
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\three-row-mobile-final-768.png` (768 x 1024), iPad-width control.
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\mobile-rhythm-final-320.png` (320 x 812), compact rhythm check.
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\mobile-rhythm-final-337.png` (337 x 812), narrow-phone rhythm check.
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\mobile-rhythm-final-375.png` (375 x 812), representative-phone rhythm check.
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\mobile-rhythm-final-390.png` (390 x 844), wider-phone rhythm check.
-- State: the exact final mobile CSS was applied transiently to the published event markup in the browser. Captures use one screenshot pixel per CSS pixel at device pixel ratio 1.
+  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\mobile-spacing-local-final-375-full.png` (360 x 2605), full-page capture from a 375 x 812 CSS viewport; the 15 px width difference is the browser scrollbar.
+  - Focused event-list captures from the built local preview at device pixel ratio 1:
+    - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\mobile-spacing-local-final-320.png` (280 x 952), from a 320 x 812 CSS viewport.
+    - `mobile-spacing-local-final-375.png` (320 x 911), from a 375 x 812 CSS viewport.
+    - `mobile-spacing-local-final-390.png` (335 x 911), from a 390 x 844 CSS viewport.
+    - `mobile-spacing-local-final-672.png` (603 x 848), from a 672 x 900 CSS viewport.
+    - `mobile-spacing-local-final-673.png` (604 x 1091), from a 673 x 900 CSS viewport.
+    - `mobile-spacing-local-final-768.png` (691 x 1091), from a 768 x 1024 CSS viewport.
+- State: the built local preview rendered production event data and the committed-source candidate directly in Chromium. Screenshot dimensions reflect the event-list element crop; CSS viewport and device pixel ratio are recorded above.
+
+## Full-view comparison
+
+The selected 375 px proposal and the implemented 375 px full-page capture retain the same header, event ordering, typography, colors, borders, CTA treatment, and three-level event hierarchy. The implementation extends the confirmed card rhythm consistently through the complete event list and leaves the profile section unchanged.
+
+## Focused region comparison
+
+The focused event-list captures make the affected details readable at narrow mobile, wide mobile, and the mobile/tablet boundary:
+
+- At 320 px, longer artist names wrap to two lines; every current venue and producer remains on one line.
+- At 375 and 390 px, `PAVEL PETROV` and `Club Araoz` each use one line, and the producer chip remains aligned to the venue's left edge.
+- At 672 px, the mobile three-level layout remains active. At 673 and 768 px, the existing tablet two-column metadata presentation returns unchanged.
 
 ## Findings
 
-No actionable P0, P1, or P2 visual differences remain for the requested behavior.
+No actionable P0, P1, or P2 visual differences remain.
 
-- Hierarchy: mobile cards show artist, venue, and producer as three distinct visual levels. Artist names use one or two lines according to available width.
-- Metadata: all current venues, including `Club Araoz` and `Punta Carrasco`, remain on one line from 320 through 672 px. Producer chips also remain on one line and align to the venue's left edge.
-- Spacing: venue and producer use a fixed 4 px row gap. Their containing column can use the free width before the actions while reserving 108 px for the right-side controls.
-- Compact rhythm: the mobile card row gap is 4 px instead of 8 px. Final card height is 144.09 px across the 320, 337, 375, and 390 px checks, and the Tickets-to-Mesas gap is 31.09 px.
-- Bottom alignment: both the producer chip and Mesas end 13 px above the card's lower border at every tested phone width.
-- Actions: no venue or producer overlaps Tickets or Mesas at any tested width. Both actions retain 44 px minimum heights.
-- Responsive behavior: the three-level presentation applies through 672 px. At 673 and 768 px, venue and producer retain the existing tablet/desktop row and no mobile override is applied.
-- Overflow: no horizontal viewport overflow or metadata overflow was measured at 320, 337, 360, 375, 390, 672, 673, or 768 px.
-- Visual language: typography, colors, borders, date column, copy, and CTA styling are unchanged.
+- Spacing and layout rhythm: artist-to-venue is 17.95 px and venue-to-producer is 17.84 px for both one- and two-line artist names. One-line cards are 121.09 px high; two-line cards are 141.89 px high.
+- Action rhythm: Tickets-to-Mesas is 8.09 px for one-line artist cards and 28.89 px for two-line artist cards. This follows the content height without adding empty rows.
+- Bottom alignment: the producer chip and Mesas both end 13 px above the card border at all tested mobile widths.
+- Responsive safety: no title, venue, producer, Tickets, or Mesas overlap was observed at 320, 375, 390, 672, 673, or 768 px. No page overflow beyond the declared 320 px minimum width was observed.
+- Fonts and typography: the existing Space Grotesk/Syncopate families, weights, sizes, line heights, letter spacing, and wrapping behavior are unchanged.
+- Colors and visual tokens: the black surface, muted metadata, orange producer edge, white type, and orange Tickets CTA continue using the existing tokens.
+- Image and asset fidelity: no images, logos, icons, crops, or asset rendering changed.
+- Copy and content: event titles, venues, producers, dates, labels, URLs, and accessible names are unchanged.
 
-## Implementation notes
+## Comparison history
 
-- Removed the character-count heuristic and its wrapped-venue modifier because rendered width cannot be inferred reliably from string length.
-- Mobile metadata now uses a single-column grid. Venue and producer no longer compete for columns or determine each other's position.
-- The narrower 27rem and 22rem producer exceptions are no longer necessary; the 22rem event-grid reduction remains for the smallest supported viewport.
+- Earlier finding: one-line artists left about 27.95 px before the venue, while two-line artists left about 17.56 px and venue-to-producer measured about 17.84 px.
+- Cause: artist title shared the outer grid row whose height was set by the date and Tickets control, so unused row height accumulated below a one-line title.
+- Fix: added an `event-info` wrapper that is `display: contents` outside mobile and becomes an independent one-column grid at 42rem and below. It owns a 7 px title-to-metadata gap while venue and producer retain their 4 px internal gap.
+- Post-fix evidence: measured artist-to-venue and venue-to-producer gaps are 17.95 px and 17.84 px across one- and two-line examples. Focused captures confirm the mobile rendering and the 672/673 px boundary.
 
 ## Interaction and runtime checks
 
-- The published page rendered meaningful content without an error overlay.
+- Meaningful page content rendered from the built local preview without an error overlay.
 - Browser error output was empty.
-- The interactive snapshot retained every venue, Tickets, and Mesas link.
-- External destinations were not opened because link behavior and URLs are unchanged.
+- The interactive snapshot retained each event ticket overlay, venue Maps link, and Mesas WhatsApp link.
+- External destinations were not opened because link semantics and URLs are unchanged.
+- An initial unconfigured dev-server attempt returned HTTP 500 at the existing Sanity configuration guard. The final static build used the published site's public Sanity configuration, and its local preview passed browser verification.
 
 ## Validation
 
+- Focused producer-label test: 5 tests passed.
 - `npm test`: 62 tests passed.
 - `npm run check`: 35 files checked with 0 errors, warnings, or hints.
-- Focused producer-label test: 5 tests passed.
-- `npm run build`: blocked while rendering `/` because `PUBLIC_SANITY_PROJECT_ID` is unavailable in this local environment; compilation completed before the configuration guard.
-- Browser validation: 320, 337, 360, 375, 390, 672, 673, and 768 px; no action overlap, metadata overflow, or viewport overflow.
-- Mobile rhythm validation: 320, 337, 375, and 390 px; the compact row gap preserves equal producer/Mesas bottom spacing. The 673 and 768 px controls remain unchanged.
+- `npm run build`: passed after resolving the published site's public Sanity configuration without printing it.
+- Browser matrix: 320, 375, 390, 672, 673, and 768 px.
 
-final result: passed with the documented local build-environment limitation
+final result: passed
