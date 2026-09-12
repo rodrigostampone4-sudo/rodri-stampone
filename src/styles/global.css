@@ -318,7 +318,8 @@ svg {
 .events-list {
   --event-leading-column-width: 3.8125rem;
   display: grid;
-  grid-template-columns: var(--event-leading-column-width) minmax(0, 1fr);
+  /* Subgrid includes the card's left padding, so preserve the full date column inside it. */
+  grid-template-columns: calc(var(--event-leading-column-width) + 20px) minmax(0, 1fr);
   column-gap: 8px;
   margin: 0;
   padding: 0;

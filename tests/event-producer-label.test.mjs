@@ -30,7 +30,7 @@ test('event cards render the sketch hierarchy without changing link semantics', 
 test('event cards preserve the measured sketch spacing and top alignment', () => {
   assert.match(
     styles,
-    /\.events-list \{[\s\S]*?--event-leading-column-width: 3\.8125rem;[\s\S]*?display: grid;[\s\S]*?grid-template-columns: var\(--event-leading-column-width\) minmax\(0, 1fr\);[\s\S]*?column-gap: 8px;/,
+    /\.events-list \{[\s\S]*?--event-leading-column-width: 3\.8125rem;[\s\S]*?display: grid;[\s\S]*?grid-template-columns: calc\(var\(--event-leading-column-width\) \+ 20px\) minmax\(0, 1fr\);[\s\S]*?column-gap: 8px;/,
   );
   assert.match(
     styles,
