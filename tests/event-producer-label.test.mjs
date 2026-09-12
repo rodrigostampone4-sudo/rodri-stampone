@@ -42,7 +42,7 @@ test('event cards preserve the measured sketch spacing and top alignment', () =>
   );
   assert.match(
     styles,
-    /\.event-info \{[\s\S]*?grid-column: 2;[\s\S]*?grid-row: 1;[\s\S]*?display: grid;[\s\S]*?align-content: start;[\s\S]*?row-gap: 12px;/,
+    /\.event-info \{[\s\S]*?grid-column: 2;[\s\S]*?grid-row: 1;[\s\S]*?display: grid;[\s\S]*?align-content: start;[\s\S]*?row-gap: 8px;/,
   );
   assert.match(
     styles,
@@ -85,6 +85,10 @@ test('mobile cards retain the same sketch grid at narrow widths', () => {
   assert.match(
     styles,
     /@media \(max-width: 42rem\) \{[\s\S]*?\.event-item \{[\s\S]*?grid-template-rows: auto minmax\(24px, 1fr\) auto;[\s\S]*?padding: 20px;/,
+  );
+  assert.match(
+    styles,
+    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-info \{[\s\S]*?row-gap: 8px;/,
   );
   assert.match(
     styles,

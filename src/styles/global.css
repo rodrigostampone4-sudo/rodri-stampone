@@ -359,7 +359,7 @@ svg {
   grid-row: 1;
   display: grid;
   align-content: start;
-  row-gap: 12px;
+  row-gap: 8px;
 }
 
 .event-ticket-overlay {
@@ -1012,7 +1012,7 @@ a:focus-visible {
   .event-info {
     grid-column: 2;
     grid-row: 1;
-    row-gap: 12px;
+    row-gap: 8px;
   }
 
   .event-ticket-overlay,
