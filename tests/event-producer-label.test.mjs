@@ -30,11 +30,11 @@ test('event cards render the sketch hierarchy without changing link semantics', 
 test('event cards preserve the measured sketch spacing and top alignment', () => {
   assert.match(
     styles,
-    /\.events-list \{[\s\S]*?--event-leading-column-width: 3\.8125rem;[\s\S]*?display: grid;[\s\S]*?grid-template-columns: max-content minmax\(0, 1fr\);[\s\S]*?column-gap: 12px;/,
+    /\.events-list \{[\s\S]*?--event-leading-column-width: 3\.8125rem;[\s\S]*?display: grid;[\s\S]*?grid-template-columns: var\(--event-leading-column-width\) minmax\(0, 1fr\);[\s\S]*?column-gap: 8px;/,
   );
   assert.match(
     styles,
-    /\.event-item \{[\s\S]*?grid-column: 1 \/ -1;[\s\S]*?grid-template-columns: var\(--event-leading-column-width\) minmax\(0, 1fr\);[\s\S]*?grid-template-rows: auto minmax\(24px, 1fr\) auto;[\s\S]*?column-gap: 12px;[\s\S]*?align-items: start;[\s\S]*?padding: 20px;/,
+    /\.event-item \{[\s\S]*?grid-column: 1 \/ -1;[\s\S]*?grid-template-columns: var\(--event-leading-column-width\) minmax\(0, 1fr\);[\s\S]*?grid-template-rows: auto minmax\(24px, 1fr\) auto;[\s\S]*?column-gap: 8px;[\s\S]*?align-items: start;[\s\S]*?padding: 20px;/,
   );
   assert.match(
     styles,
