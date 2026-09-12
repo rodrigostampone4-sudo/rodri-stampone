@@ -10,6 +10,7 @@ import { schemaTypes } from './schemaTypes';
 import { DashboardPane } from './src/components/DashboardPane';
 import { EventsPane } from './src/components/EventsPane';
 import { FourSideIcon } from './src/components/FourSideIcon';
+import { StudioLayout } from './src/components/StudioLayout';
 import { resolveDocumentActions } from './src/lib/document-actions';
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID?.trim();
@@ -23,6 +24,11 @@ export default defineConfig({
   // connected interactively; no placeholder project ID is invented.
   projectId: projectId ?? '',
   dataset,
+  studio: {
+    components: {
+      layout: StudioLayout,
+    },
+  },
   document: {
     actions: (previousActions, context) =>
       resolveDocumentActions(previousActions, context.schemaType),
