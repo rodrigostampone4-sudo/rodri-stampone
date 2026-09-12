@@ -67,7 +67,11 @@ test('only 4SIDE receives the continuous orbiting border reflection', () => {
 test('mobile event titles wrap without competing with actions or metadata', () => {
   assert.match(
     styles,
-    /@media \(max-width: 22rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?grid-template-columns: 2\.5rem minmax\(0, 1fr\) auto;[\s\S]*?gap: 0\.375rem;/,
+    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?column-gap: 0\.5rem;[\s\S]*?row-gap: 0\.25rem;/,
+  );
+  assert.match(
+    styles,
+    /@media \(max-width: 22rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?grid-template-columns: 2\.5rem minmax\(0, 1fr\) auto;[\s\S]*?column-gap: 0\.375rem;[\s\S]*?row-gap: 0\.25rem;/,
   );
   assert.match(
     styles,
