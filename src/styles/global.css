@@ -522,6 +522,7 @@ svg {
   background: var(--color-accent);
   border-color: var(--color-accent);
   color: var(--color-background);
+  font-family: var(--font-sans);
 }
 
 .event-tables-cta {
