@@ -227,60 +227,43 @@ const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 120
                       </time>
                       <span class="event-info">
                         <span class="event-title">{event.title}</span>
-                        <span class="event-meta">
-                          {event.venueMapsUrl ? (
-                            <a
-                              class="event-venue event-venue--maps"
-                              href={event.venueMapsUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              aria-label={`Abrir ubicación de ${event.venue} en Google Maps`}
-                            >
-                              {event.venue}
-                            </a>
-                          ) : (
-                            <span class="event-venue">{event.venue}</span>
-                          )}
-                          <span
-                            class:list={[
-                              'event-producer',
-                              { 'event-producer--4side': event.producerId === 'producer-4side' },
-                            ]}
+                        {event.venueMapsUrl ? (
+                          <a
+                            class="event-venue event-venue--maps"
+                            href={event.venueMapsUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`Abrir ubicación de ${event.venue} en Google Maps`}
                           >
-                            {event.producer}
-                          </span>
-                        </span>
+                            {event.venue}
+                          </a>
+                        ) : (
+                          <span class="event-venue">{event.venue}</span>
+                        )}
+                      </span>
+                      <span
+                        class:list={[
+                          'event-producer',
+                          { 'event-producer--4side': event.producerId === 'producer-4side' },
+                        ]}
+                      >
+                        {event.producer}
                       </span>
                       <span class="event-actions">
-                        <span class="event-cta event-ticket-cta">
-                          Tickets
-                          <svg
-                            class="event-arrow"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            aria-hidden="true"
+                        <span class="event-cta event-ticket-cta">Tickets</span>
+                        {tablesUrl && (
+                          <a
+                            class="event-tables-cta"
+                            href={tablesUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`Consultar mesas para ${event.title} el ${formattedDate.day} de ${formattedDate.month} por WhatsApp`}
                           >
-                            <path d="M7 17 17 7" />
-                            <path d="M8 7h9v9" />
-                          </svg>
-                        </span>
+                            Mesas
+                          </a>
+                        )}
                       </span>
                     </div>
-                    {tablesUrl && (
-                      <a
-                        class="event-cta event-tables-cta"
-                        href={tablesUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={`Consultar mesas para ${event.title} el ${formattedDate.day} de ${formattedDate.month} por WhatsApp`}
-                      >
-                        Mesas
-                      </a>
-                    )}
                   </li>
                 );
               })}

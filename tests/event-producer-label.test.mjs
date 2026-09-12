@@ -17,39 +17,52 @@ test('the landing projects and types the managed event producer', () => {
   assert.match(contentTypes, /export interface Event \{[\s\S]*?producerId: string;[\s\S]*?producer: string;/);
 });
 
-test('event cards render the producer as non-interactive metadata', () => {
+test('event cards render the sketch hierarchy without changing link semantics', () => {
   assert.match(
     landing,
-    /class="event-info"[\s\S]*?class="event-title"[\s\S]*?class="event-meta"[\s\S]*?class="event-venue event-venue--maps"[\s\S]*?class:list=\{\[[\s\S]*?'event-producer'/,
+    /class="event-info"[\s\S]*?class="event-title"[\s\S]*?class="event-venue event-venue--maps"[\s\S]*?class:list=\{\[[\s\S]*?'event-producer'[\s\S]*?class="event-actions"[\s\S]*?class="event-cta event-ticket-cta"[\s\S]*?class="event-tables-cta"/,
   );
-  assert.doesNotMatch(landing, /wrapsMobileVenue|event-meta--wrapped-venue/);
   assert.match(landing, /productora \$\{event\.producer\}/);
-  assert.match(
-    styles,
-    /\.event-meta \{[\s\S]*?grid-template-columns: minmax\(0, 6\.5rem\) auto;[\s\S]*?justify-content: start;[\s\S]*?column-gap: 0\.5rem;/,
-  );
-  assert.match(
-    styles,
-    /\.event-info \{[\s\S]*?display: contents;[\s\S]*?@media \(max-width: 42rem\) \{[\s\S]*?\.event-info \{[\s\S]*?grid-column: 2 \/ 4;[\s\S]*?grid-row: 1;[\s\S]*?display: grid;[\s\S]*?row-gap: 0\.4375rem;[\s\S]*?padding-right: 6\.75rem;/,
-  );
-  assert.match(
-    styles,
-    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-meta \{[\s\S]*?grid-column: 1;[\s\S]*?grid-row: 2;[\s\S]*?display: grid;[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?align-items: start;[\s\S]*?justify-items: start;[\s\S]*?row-gap: 0\.25rem;[\s\S]*?padding-right: 0;/,
-  );
-  assert.match(
-    styles,
-    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-venue,[\s\S]*?\.event-producer \{[\s\S]*?white-space: nowrap;/,
-  );
-  assert.match(
-    styles,
-    /\.event-producer \{[\s\S]*?justify-self: start;[\s\S]*?border: 1px solid var\(--color-border\);[\s\S]*?border-left-color: var\(--color-accent\);[\s\S]*?font-family: var\(--font-sans\);[\s\S]*?font-size: 0\.625rem;[\s\S]*?text-transform: uppercase;/,
-  );
-  assert.doesNotMatch(styles, /\.event-meta--wrapped-venue/);
-  assert.match(
-    styles,
-    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-arrow \{[\s\S]*?width: 1\.25rem;[\s\S]*?height: 1\.25rem;/,
-  );
+  assert.doesNotMatch(landing, /event-meta|event-arrow/);
   assert.doesNotMatch(landing, /<a[^>]*class="event-producer"/);
+});
+
+test('event cards preserve the measured sketch spacing and top alignment', () => {
+  assert.match(
+    styles,
+    /\.events-list \{[\s\S]*?--event-leading-column-width: 3\.8125rem;[\s\S]*?display: grid;[\s\S]*?grid-template-columns: max-content minmax\(0, 1fr\);[\s\S]*?column-gap: 12px;/,
+  );
+  assert.match(
+    styles,
+    /\.event-item \{[\s\S]*?grid-column: 1 \/ -1;[\s\S]*?grid-template-columns: var\(--event-leading-column-width\) minmax\(0, 1fr\);[\s\S]*?grid-template-rows: auto minmax\(24px, 1fr\) auto;[\s\S]*?column-gap: 12px;[\s\S]*?align-items: start;[\s\S]*?padding: 20px;/,
+  );
+  assert.match(
+    styles,
+    /@supports \(grid-template-columns: subgrid\) \{[\s\S]*?\.event-item \{[\s\S]*?grid-template-columns: subgrid;/,
+  );
+  assert.match(
+    styles,
+    /\.event-info \{[\s\S]*?grid-column: 2;[\s\S]*?grid-row: 1;[\s\S]*?display: grid;[\s\S]*?align-content: start;[\s\S]*?row-gap: 12px;/,
+  );
+  assert.match(
+    styles,
+    /\.event-producer \{[\s\S]*?grid-column: 1;[\s\S]*?grid-row: 3;[\s\S]*?align-self: end;[\s\S]*?justify-self: start;/,
+  );
+  assert.match(
+    styles,
+    /\.event-actions \{[\s\S]*?top: 20px;[\s\S]*?right: 20px;[\s\S]*?width: 6\.25rem;[\s\S]*?flex-direction: column;/,
+  );
+});
+
+test('event actions balance a larger Tickets label with a secondary Mesas link', () => {
+  assert.match(
+    styles,
+    /\.event-cta \{[\s\S]*?min-height: 2\.75rem;[\s\S]*?padding: 0\.375rem 0\.625rem;[\s\S]*?font-size: 0\.75rem;/,
+  );
+  assert.match(
+    styles,
+    /\.event-tables-cta \{[\s\S]*?min-height: 2\.75rem;[\s\S]*?display: inline-flex;[\s\S]*?pointer-events: auto;[\s\S]*?text-decoration: underline;/,
+  );
 });
 
 test('only 4SIDE receives the continuous orbiting border reflection', () => {
@@ -68,26 +81,18 @@ test('only 4SIDE receives the continuous orbiting border reflection', () => {
   );
 });
 
-test('mobile event titles wrap without competing with actions or metadata', () => {
+test('mobile cards retain the same sketch grid at narrow widths', () => {
   assert.match(
     styles,
-    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?column-gap: 0\.5rem;[\s\S]*?row-gap: 0;/,
+    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-item \{[\s\S]*?grid-template-rows: auto minmax\(24px, 1fr\) auto;[\s\S]*?padding: 20px;/,
   );
   assert.match(
     styles,
-    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-actions \{[\s\S]*?grid-column: 3;[\s\S]*?grid-row: 1;/,
+    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-actions \{[\s\S]*?top: 20px;[\s\S]*?right: 20px;[\s\S]*?width: 5\.5rem;/,
   );
   assert.match(
     styles,
-    /@media \(max-width: 42rem\) \{[\s\S]*?\.event-title \{[\s\S]*?grid-column: 1;[\s\S]*?grid-row: 1;/,
-  );
-  assert.match(
-    styles,
-    /@media \(max-width: 22rem\) \{[\s\S]*?\.event-ticket-link \{[\s\S]*?grid-template-columns: 2\.5rem minmax\(0, 1fr\) auto;[\s\S]*?column-gap: 0\.375rem;[\s\S]*?row-gap: 0;/,
-  );
-  assert.match(
-    styles,
-    /@media \(min-width: 23\.4375rem\) and \(max-width: 27rem\) \{[\s\S]*?\.event-title \{[\s\S]*?max-inline-size: clamp\(8\.125rem, 35vw, 9\.5rem\);/,
+    /@media \(max-width: 22rem\) \{[\s\S]*?\.event-item \{[\s\S]*?padding-right: calc\(20px \+ 5\.25rem \+ 12px\);[\s\S]*?\.event-actions \{[\s\S]*?width: 5\.25rem;/,
   );
 });
 

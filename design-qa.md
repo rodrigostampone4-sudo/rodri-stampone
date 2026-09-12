@@ -1,68 +1,52 @@
-# Mobile event information spacing visual QA
+# Landing event card design QA
 
 ## Evidence
 
 - Source visual truth:
-  - User requirement: on mobile only, artist, venue, and producer remain three visual levels; artist may wrap to two lines, while venue and producer stay on one line. The artist-to-venue and venue-to-producer spacing should read as equal. Tablet and desktop stay unchanged.
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\single-line-gap-proposal-final-375.png` (375 x 812), the selected browser-rendered proposal.
-  - `C:\Dev\repos\active\Rodri Stampone\.codex-remote-attachments\01a08f02-8431-7ea1-b585-8ad49d088984\400f38c5-edeb-4f30-9b26-e23435210de4\1-Photo-1.jpg` (653 x 1280), original real-device evidence.
+  - `C:\Users\mater\AppData\Local\Temp\codex-clipboard-42fc9220-8dcb-45fb-b5d1-9e5ac11e5d9d.png` (992 x 607), the annotated event-card sketch.
+  - `C:\Users\mater\AppData\Local\Temp\codex-clipboard-55117354-1a0a-45ea-9ad3-d9d09505e59e.jpg` (900 x 1600), the wider sketch context.
+  - The user's supplied designer transcript resolves the intended measurements and hierarchy: 20 px edge inset, 12 px from date to artist, artist/date/Tickets top alignment, at least 24 px from venue to producer, producer aligned to the left edge, a denser Tickets button with larger type, and Mesas as a secondary action or link.
 - Browser-rendered implementation:
-  - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\mobile-spacing-local-final-375-full.png` (360 x 2605), full-page capture from a 375 x 812 CSS viewport; the 15 px width difference is the browser scrollbar.
-  - Focused event-list captures from the built local preview at device pixel ratio 1:
-    - `C:\Users\mater\.codex\visualizations\2026\09\11\01a08f02-8431-7ea1-b585-8ad49d088984\mobile-spacing-local-final-320.png` (280 x 952), from a 320 x 812 CSS viewport.
-    - `mobile-spacing-local-final-375.png` (320 x 911), from a 375 x 812 CSS viewport.
-    - `mobile-spacing-local-final-390.png` (335 x 911), from a 390 x 844 CSS viewport.
-    - `mobile-spacing-local-final-672.png` (603 x 848), from a 672 x 900 CSS viewport.
-    - `mobile-spacing-local-final-673.png` (604 x 1091), from a 673 x 900 CSS viewport.
-    - `mobile-spacing-local-final-768.png` (691 x 1091), from a 768 x 1024 CSS viewport.
-- State: the built local preview rendered production event data and the committed-source candidate directly in Chromium. Screenshot dimensions reflect the event-list element crop; CSS viewport and device pixel ratio are recorded above.
+  - `C:\Users\mater\.codex\visualizations\2026\09\12\01a0933c-a2c0-7702-bc02-11f181426498\event-card-built-final-390.png` (335 x 182), focused first-card capture from the final static build.
+  - `C:\Users\mater\.codex\visualizations\2026\09\12\01a0933c-a2c0-7702-bc02-11f181426498\event-cards-aligned-built-390.png` (390 x 844), final static-build viewport showing both `Elements` and `4SIDE` cards with one shared artist/venue axis.
+  - `C:\Users\mater\.codex\visualizations\2026\09\12\01a0933c-a2c0-7702-bc02-11f181426498\landing-built-final-390.png` (375 x 2938), full-page capture from the final static build.
+  - Responsive focused captures at 320, 768, and 1440 px browser viewports: `event-card-final-320.png` (280 x 182), `event-card-final-768.png` (691 x 166), and `event-card-final-1440.png` (1309 x 187).
+- Viewport and normalization: the primary browser viewport was 390 x 844 CSS px at device pixel ratio 1. The vertical scrollbar leaves a 375 px page capture and a 335 px card after the existing 20 px page gutters. The source is a photographed freehand specification rather than a same-viewport raster mock, so the comparison normalizes hierarchy and measured spacing rather than literal pixel shape or color.
+- State: initial dark landing with current published Sanity event data. No external destination was opened.
 
 ## Full-view comparison
 
-The selected 375 px proposal and the implemented 375 px full-page capture retain the same header, event ordering, typography, colors, borders, CTA treatment, and three-level event hierarchy. The implementation extends the confirmed card rhythm consistently through the complete event list and leaves the profile section unchanged.
+The full-page build retains the established landing header, event ordering, type system, palette, profile section, portrait, and footer. Only the event-card composition changes. Cards now follow the sketch consistently: date and producer share the left axis, artist and venue form the center stack, and Tickets with a linked Mesas action share the right axis.
 
 ## Focused region comparison
 
-The focused event-list captures make the affected details readable at narrow mobile, wide mobile, and the mobile/tablet boundary:
-
-- At 320 px, longer artist names wrap to two lines; every current venue and producer remains on one line.
-- At 375 and 390 px, `PAVEL PETROV` and `Club Araoz` each use one line, and the producer chip remains aligned to the venue's left edge.
-- At 672 px, the mobile three-level layout remains active. At 673 and 768 px, the existing tablet two-column metadata presentation returns unchanged.
+The source sketch and final aligned-cards capture were opened together for direct comparison. The implementation matches every explicit spatial rule: 20 px top/right/bottom/left content insets, a 12 px date-to-artist gap, zero-pixel vertical offset between date, artist, and Tickets, a 12 px artist-to-venue gap, and a 24 px venue-to-producer gap. Mesas is presented as the underlined secondary link shown in the sketch. The follow-up alignment rule is also visible across repeated cards: shorter `4SIDE` chips no longer pull artist and venue text toward the date.
 
 ## Findings
 
 No actionable P0, P1, or P2 visual differences remain.
 
-- Spacing and layout rhythm: artist-to-venue is 17.95 px and venue-to-producer is 17.84 px for both one- and two-line artist names. One-line cards are 121.09 px high; two-line cards are 141.89 px high.
-- Action rhythm: Tickets-to-Mesas is 8.09 px for one-line artist cards and 28.89 px for two-line artist cards. This follows the content height without adding empty rows.
-- Bottom alignment: the producer chip and Mesas both end 13 px above the card border at all tested mobile widths.
-- Responsive safety: no title, venue, producer, Tickets, or Mesas overlap was observed at 320, 375, 390, 672, 673, or 768 px. No page overflow beyond the declared 320 px minimum width was observed.
-- Fonts and typography: the existing Space Grotesk/Syncopate families, weights, sizes, line heights, letter spacing, and wrapping behavior are unchanged.
-- Colors and visual tokens: the black surface, muted metadata, orange producer edge, white type, and orange Tickets CTA continue using the existing tokens.
-- Image and asset fidelity: no images, logos, icons, crops, or asset rendering changed.
-- Copy and content: event titles, venues, producers, dates, labels, URLs, and accessible names are unchanged.
+- Fonts and typography: the existing Space Grotesk/Syncopate system is preserved. Artist wrapping remains one or two lines depending on available width. Tickets increases from 0.625rem to 0.75rem and uses tighter 6 x 10 px padding; the previous arrow is removed to match the sketch and reduce visual air.
+- Spacing and layout rhythm: browser measurements at 320, 375, 390, 672, 673, 768, 992, 993, and 1440 px confirm 20 px edge insets, 12 px date-to-artist separation, 24 px venue-to-producer separation, and exact top alignment. At every tested width, every artist and venue text block has one common horizontal start; the maximum measured cross-card delta is 0 px. There is no card or page overflow. Producer and Mesas placement remains stable when artist names wrap.
+- Colors and visual tokens: the existing black surface, white display type, muted metadata, orange Tickets action, borders, hover colors, and producer treatment remain mapped to the current landing tokens.
+- Image quality and asset fidelity: the cards contain no source imagery. No landing image, logo, icon asset, crop, compression, or rendering behavior changes. Removing the decorative Tickets arrow does not replace it with a simulated asset.
+- Copy and content: dates, artist names, venues, producer names, Tickets, Mesas, accessible labels, and URLs remain unchanged.
+- Accessibility and interaction: Tickets, venue, and Mesas remain three distinct links. Keyboard focus reached each control; hit testing confirmed that the visible Tickets control resolves to the ticket overlay while venue and Mesas resolve to their own anchors. Each keeps a real destination, `target="_blank"`, and `rel="noreferrer"`. Tickets and Mesas retain 44 px control height. External links were not activated during QA.
 
 ## Comparison history
 
-- Earlier finding: one-line artists left about 27.95 px before the venue, while two-line artists left about 17.56 px and venue-to-producer measured about 17.84 px.
-- Cause: artist title shared the outer grid row whose height was set by the date and Tickets control, so unused row height accumulated below a one-line title.
-- Fix: added an `event-info` wrapper that is `display: contents` outside mobile and becomes an independent one-column grid at 42rem and below. It owns a 7 px title-to-metadata gap while venue and producer retain their 4 px internal gap.
-- Post-fix evidence: measured artist-to-venue and venue-to-producer gaps are 17.95 px and 17.84 px across one- and two-line examples. Focused captures confirm the mobile rendering and the 672/673 px boundary.
-
-## Interaction and runtime checks
-
-- Meaningful page content rendered from the built local preview without an error overlay.
-- Browser error output was empty.
-- The interactive snapshot retained each event ticket overlay, venue Maps link, and Mesas WhatsApp link.
-- External destinations were not opened because link semantics and URLs are unchanged.
-- An initial unconfigured dev-server attempt returned HTTP 500 at the existing Sanity configuration guard. The final static build used the published site's public Sanity configuration, and its local preview passed browser verification.
+- Original card comparison: no P0, P1, or P2 mismatch remained against the sketch after implementing the supplied card hierarchy and measurements.
+- Follow-up alignment measurement at 390 px: the per-card `max-content` column placed `Elements` titles at x = 113 px and `4SIDE` titles at x = 90.21875 px, a 22.78125 px mismatch.
+- Alignment correction: the event list now owns the leading `max-content` track and each card participates through CSS subgrid. The longest rendered producer chip therefore sets one dynamic width for the whole list; a 3.8125rem fallback preserves the current longest-chip width where subgrid is unavailable.
+- Post-build confirmation at 390 px: CSS subgrid is active; all seven cards place both artist and venue text at x = 113 px, including `Elements` and `4SIDE`. Tickets and Mesas measure 44 px high, every card has 0 px overflow, and the page has 0 px horizontal overflow.
 
 ## Validation
 
-- Focused producer-label test: 5 tests passed.
-- `npm test`: 62 tests passed.
+- Focused event-card tests: 7 passed.
+- Full test suite: 64 passed.
 - `npm run check`: 35 files checked with 0 errors, warnings, or hints.
-- `npm run build`: passed after resolving the published site's public Sanity configuration without printing it.
-- Browser matrix: 320, 375, 390, 672, 673, and 768 px.
+- `npm run build`: passed using the project's public Sanity configuration without printing its values.
+- `git diff --check`: passed.
+- Browser: meaningful content rendered, no error overlay, no page errors, and no console output after a clean static-preview reload.
 
 final result: passed
