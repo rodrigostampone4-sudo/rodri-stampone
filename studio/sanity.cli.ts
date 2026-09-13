@@ -9,6 +9,6 @@ export default defineCliConfig({
     dataset,
   },
   deployment: {
-    appId: 'u277093a0fs9666mf12iu8hk',
+    appId: 'yg93g1r1faajur8cqktibpth',
   },
 });

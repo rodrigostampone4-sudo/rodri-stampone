@@ -115,7 +115,7 @@ test('runtime versions and owner-dependent Studio URL are explicit', () => {
 });
 
 test('Sanity resolves only the externally hosted CMS', () => {
-  assert.match(studioCli, /deployment:\s*\{\s*appId: 'u277093a0fs9666mf12iu8hk'/);
+  assert.match(studioCli, /deployment:\s*\{\s*appId: 'yg93g1r1faajur8cqktibpth'/);
   assert.doesNotMatch(studioCli, /studioHost/);
   assert.match(architecture, /sanity deploy --external --schema-required/);
   assert.doesNotMatch(architecture, /rodristampone\.sanity\.studio/);
