@@ -83,11 +83,44 @@ test('both Vercel projects declare the low-risk defensive headers', () => {
     const globalHeaders = config.headers.find(({ source }) => source === '/(.*)')?.headers ?? [];
     const values = new Map(globalHeaders.map(({ key, value }) => [key, value]));
 
-    assert.equal(values.get('Content-Security-Policy'), "frame-ancestors 'none'");
     assert.equal(values.get('X-Frame-Options'), 'DENY');
     assert.equal(values.get('X-Content-Type-Options'), 'nosniff');
     assert.equal(values.get('Referrer-Policy'), 'strict-origin-when-cross-origin');
   }
+});
+
+test('the landing enforces a CSP without unsafe script or style execution', () => {
+  const config = JSON.parse(rootVercel);
+  const globalHeaders = config.headers.find(({ source }) => source === '/(.*)')?.headers ?? [];
+  const csp = globalHeaders.find(({ key }) => key === 'Content-Security-Policy')?.value ?? '';
+
+  assert.match(csp, /default-src 'self'/);
+  assert.match(csp, /script-src 'self'/);
+  assert.match(csp, /script-src-attr 'none'/);
+  assert.match(csp, /style-src 'self' https:\/\/fonts\.googleapis\.com/);
+  assert.match(csp, /font-src 'self' https:\/\/fonts\.gstatic\.com/);
+  assert.match(csp, /img-src 'self' data: https:\/\/cdn\.sanity\.io/);
+  assert.match(csp, /object-src 'none'/);
+  assert.match(csp, /frame-ancestors 'none'/);
+  assert.doesNotMatch(csp, /'unsafe-inline'|'unsafe-eval'|\*/);
+  assert.match(astroConfig, /inlineStylesheets:\s*'never'/);
+  assert.match(astroConfig, /assetsInlineLimit:\s*0/);
+});
+
+test('the Studio evaluates a stricter Sanity-specific CSP without enforcing it yet', () => {
+  const config = JSON.parse(studioVercel);
+  const globalHeaders = config.headers.find(({ source }) => source === '/(.*)')?.headers ?? [];
+  const values = new Map(globalHeaders.map(({ key, value }) => [key, value]));
+  const reportOnlyCsp = values.get('Content-Security-Policy-Report-Only') ?? '';
+
+  assert.equal(values.get('Content-Security-Policy'), "frame-ancestors 'none'");
+  assert.match(reportOnlyCsp, /default-src 'self'/);
+  assert.match(reportOnlyCsp, /connect-src[^;]*https:\/\/\*\.sanity\.io/);
+  assert.match(reportOnlyCsp, /connect-src[^;]*https:\/\/\*\.sanity-cdn\.com/);
+  assert.match(reportOnlyCsp, /script-src 'self' https:\/\/\*\.sanity-cdn\.com/);
+  assert.match(reportOnlyCsp, /script-src-attr 'none'/);
+  assert.match(reportOnlyCsp, /object-src 'none'/);
+  assert.doesNotMatch(reportOnlyCsp, /'unsafe-eval'/);
 });
 
 test('CI validates both packages without receiving deployment credentials', () => {

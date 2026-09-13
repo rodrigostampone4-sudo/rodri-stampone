@@ -11,4 +11,12 @@ if (siteUrl.protocol !== 'https:' || siteUrl.username || siteUrl.password) {
 export default defineConfig({
   output: 'static',
   site: siteUrl.toString(),
+  build: {
+    inlineStylesheets: 'never',
+  },
+  vite: {
+    build: {
+      assetsInlineLimit: 0,
+    },
+  },
 });

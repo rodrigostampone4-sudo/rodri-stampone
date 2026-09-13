@@ -115,6 +115,20 @@ despliega de forma aislada. Las pruebas raíz verifican su paridad con la landin
 expiración automática al día siguiente a las 08:00 de
 `America/Argentina/Buenos_Aires`.
 
+## Seguridad de contenido en el navegador
+
+La landing aplica una Content Security Policy estricta desde Vercel. Astro
+genera sus estilos y scripts como assets externos del mismo origen; la política
+sólo permite las fuentes de Google Fonts y las imágenes publicadas por el CDN de
+Sanity, y bloquea scripts inline, objetos, frames y handlers inline.
+
+El Studio conserva la protección anti-framing aplicada y evalúa una política
+más amplia mediante `Content-Security-Policy-Report-Only`. Esa política limita
+las conexiones a los dominios oficiales de Sanity, pero no debe pasar a modo
+enforced hasta completar una prueba autenticada de login, edición, subida de
+assets y publicación sin violaciones funcionales. Las violaciones se revisan
+en la consola del navegador durante QA; no se envían a un servicio externo.
+
 ## Configuración transferible
 
 `PUBLIC_SITE_URL=https://rodristampone.events/` define canonical, Open Graph,
