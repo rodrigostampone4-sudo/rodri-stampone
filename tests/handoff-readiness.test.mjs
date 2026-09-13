@@ -96,8 +96,16 @@ test('CI validates both packages without receiving deployment credentials', () =
   assert.match(workflow, /name: Studio[\s\S]*?working-directory: studio/);
   assert.match(workflow, /Install root build configuration dependencies[\s\S]*?working-directory: \./);
   assert.doesNotMatch(workflow, /VERCEL_TOKEN|SANITY_AUTH_TOKEN/);
-  assert.equal((workflow.match(/actions\/checkout@v7/g) ?? []).length, 2);
-  assert.equal((workflow.match(/actions\/setup-node@v7/g) ?? []).length, 2);
+  assert.equal(
+    (workflow.match(/actions\/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1/g) ?? [])
+      .length,
+    2,
+  );
+  assert.equal(
+    (workflow.match(/actions\/setup-node@820762786026740c76f36085b0efc47a31fe5020/g) ?? [])
+      .length,
+    2,
+  );
   assert.equal((workflow.match(/npm run build/g) ?? []).length, 2);
   assert.match(dependabot, /directory: \/[\s\S]*?directory: \/studio/);
   assert.equal((dependabot.match(/version-update:semver-major/g) ?? []).length, 2);
