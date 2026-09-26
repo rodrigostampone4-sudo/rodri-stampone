@@ -7,7 +7,7 @@ import { usePaneRouter } from 'sanity/structure';
 import { landingUrl } from '../lib/landing-url';
 import './studio.css';
 
-type SettingsSection = 'links' | 'profile';
+type SettingsSection = 'links' | 'profile' | 'specialLinks';
 
 const sectionConfig: Record<
   SettingsSection,
@@ -25,13 +25,24 @@ const sectionConfig: Record<
     note: 'La foto, el nombre, el usuario y la bio se publican juntos cuando confirmás los cambios.',
     title: 'Perfil público',
   },
+  specialLinks: {
+    description:
+      'Configurá la card de una promoción especial. Si está deshabilitada, no aparece en la landing.',
+    fieldNames: ['specialLink'],
+    note: 'Completá el contenido y las referencias antes de habilitarla.',
+    title: 'Links especiales',
+  },
 };
 
 function getSettingsSection(routerPanesState: ReturnType<typeof usePaneRouter>['routerPanesState']) {
   const paneIds = routerPanesState.flatMap((group) => group.map((pane) => pane.id));
 
   for (let index = paneIds.length - 1; index >= 0; index -= 1) {
-    if (paneIds[index] === 'links' || paneIds[index] === 'profile') {
+    if (
+      paneIds[index] === 'links' ||
+      paneIds[index] === 'profile' ||
+      paneIds[index] === 'specialLinks'
+    ) {
       return paneIds[index] as SettingsSection;
     }
   }

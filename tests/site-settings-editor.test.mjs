@@ -11,16 +11,20 @@ const [actions, config, input, landingLinkIcon, schema, studioLinkIcon] = await 
   readFile(new URL('../studio/src/components/PermanentLinkIcon.tsx', import.meta.url), 'utf8'),
 ]);
 
-test('Links and Perfil open the native site settings document directly', () => {
+test('Links, Links especiales and Perfil open the native site settings document directly', () => {
   assert.match(config, /const profilePane = \(\) =>\s*S\.document\(\)[\s\S]*?\.id\('profile'\)[\s\S]*?\.documentId\('siteSettings'\)/);
   assert.match(config, /const linksPane = \(\) =>\s*S\.document\(\)[\s\S]*?\.id\('links'\)[\s\S]*?\.documentId\('siteSettings'\)/);
-  assert.doesNotMatch(config, /LinksPane|ProfilePane/);
+  assert.match(config, /const specialLinksPane = \(\) =>\s*S\.document\(\)[\s\S]*?\.id\('specialLinks'\)[\s\S]*?\.documentId\('siteSettings'\)/);
+  assert.match(config, /\.title\('Links especiales'\)[\s\S]*?\.id\('specialLinks'\)[\s\S]*?\.child\(specialLinksPane\(\)\)/);
+  assert.doesNotMatch(config, /\b(?:LinksPane|ProfilePane)\b/);
 });
 
 test('the singleton form exposes only the fields for the selected panel destination', () => {
   assert.match(schema, /components:\s*\{\s*input: SiteSettingsInput/);
   assert.match(input, /fieldNames: \['links'\]/);
   assert.match(input, /fieldNames: \['name', 'instagramHandle', 'profileImage', 'bio'\]/);
+  assert.match(input, /fieldNames: \['specialLink'\]/);
+  assert.match(input, /paneIds\[index\] === 'specialLinks'/);
   assert.match(input, /props\.onFieldGroupSelect\(section\)/);
   assert.match(input, /props\.renderDefault\(\{ \.\.\.props, groups: \[\], members: visibleFields \}\)/);
   assert.match(input, /Edición directa/);
@@ -36,6 +40,7 @@ test('the Links panel exposes one concise presentation before the native editor'
   assert.doesNotMatch(input, /El orden del editor es el orden de presentación/);
   assert.match(input, /section === 'links' \? \{ \.\.\.props, description: undefined, title: undefined \}/);
   assert.match(schema, /name: 'links'[\s\S]*?field: SiteSettingsLinksField/);
+  assert.match(schema, /name: 'specialLinks', title: 'Links especiales'/);
   assert.doesNotMatch(schema, /Arrastrá los links para cambiar el orden de presentación/);
 });
 

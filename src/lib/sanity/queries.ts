@@ -32,7 +32,16 @@ export const siteSettingsQuery = `*[_type == "siteSettings" && _id == "siteSetti
   instagramHandle,
   "profileImage": profileImage${imageProjection},
   bio,
-  "links": coalesce(links[]{label, url, kind, enabled}, [])
+  "links": coalesce(links[]{label, url, kind, enabled}, []),
+  specialLink{
+    enabled,
+    title,
+    description,
+    ctaLabel,
+    url,
+    "producer": producer->name,
+    "venue": venue->name
+  }
 }`;
 
 export const siteSettingsCountQuery = `count(*[_type == "siteSettings"])`;

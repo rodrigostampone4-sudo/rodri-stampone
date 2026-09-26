@@ -1,6 +1,8 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
 import { renderPermanentLinkIcon } from '../src/components/PermanentLinkIcon';
+import { ManagedReferenceInput } from '../src/components/ManagedReferenceInput';
+import { specialLinkValidators } from './specialLinkValidation';
 import {
   SiteSettingsInput,
   SiteSettingsLinksField,
@@ -25,6 +27,7 @@ export default defineType({
   groups: [
     { name: 'profile', title: 'Perfil', default: true },
     { name: 'links', title: 'Links' },
+    { name: 'specialLinks', title: 'Links especiales' },
   ],
   fields: [
     defineField({
@@ -138,6 +141,79 @@ export default defineType({
 
           return profileLinks.length <= 1 || 'Solo puede haber un Instagram personal.';
         }),
+    }),
+    defineField({
+      name: 'specialLink',
+      title: 'Link especial',
+      type: 'object',
+      group: 'specialLinks',
+      fields: [
+        defineField({
+          name: 'enabled',
+          title: 'Habilitada',
+          description: 'Cuando está habilitada, la card aparece después de los eventos.',
+          type: 'boolean',
+          initialValue: false,
+        }),
+        defineField({
+          name: 'title',
+          title: 'Título',
+          type: 'string',
+          validation: (Rule) => Rule.custom(specialLinkValidators.title),
+        }),
+        defineField({
+          name: 'description',
+          title: 'Descripción',
+          type: 'text',
+          rows: 3,
+        }),
+        defineField({
+          name: 'ctaLabel',
+          title: 'Texto del botón',
+          type: 'string',
+          validation: (Rule) => Rule.custom(specialLinkValidators.ctaLabel),
+        }),
+        defineField({
+          name: 'url',
+          title: 'URL de destino',
+          type: 'url',
+          validation: (Rule) => Rule.custom(specialLinkValidators.url),
+        }),
+        defineField({
+          name: 'producer',
+          title: 'Productora',
+          description: 'Elegí una de la lista administrable de productoras.',
+          type: 'reference',
+          to: [{ type: 'producer' }],
+          components: { input: ManagedReferenceInput },
+          validation: (Rule) => Rule.custom(specialLinkValidators.producer),
+        }),
+        defineField({
+          name: 'venue',
+          title: 'Venue',
+          description: 'Elegí uno de la lista administrable de venues.',
+          type: 'reference',
+          to: [{ type: 'venue' }],
+          components: { input: ManagedReferenceInput },
+          validation: (Rule) => Rule.custom(specialLinkValidators.venue),
+        }),
+      ],
+      preview: {
+        select: {
+          title: 'title',
+          enabled: 'enabled',
+          producer: 'producer.name',
+          venue: 'venue.name',
+        },
+        prepare({ title, enabled, producer, venue }) {
+          return {
+            title: title || 'Link especial',
+            subtitle: [enabled ? 'Habilitada' : 'Deshabilitada', producer, venue]
+              .filter(Boolean)
+              .join(' · '),
+          };
+        },
+      },
     }),
   ],
   preview: {

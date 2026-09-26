@@ -71,6 +71,21 @@ La ruta pública de diagnóstico fue retirada. La conexión se comprueba con
 `sanity:smoke`, los builds y la landing resultante, sin publicar inventarios
 internos auxiliares.
 
+## Links especiales
+
+La card de links especiales se administra desde `Links especiales` en el Studio,
+mediante el objeto opcional `siteSettings.specialLink`. Guarda habilitación,
+título, descripción opcional, texto del botón, URL HTTPS y referencias a los
+catálogos de productoras y venues. La landing muestra una única card después de
+los eventos, con un solo enlace de destino y sin acciones de mesas ni Maps.
+El objeto ausente, deshabilitado o incompleto no produce una card.
+
+Esta card está fuera del contenedor sujeto a expiración: permanece visible aunque
+venza el último evento. Su habilitación y contenido siguen el flujo de publicación
+de `siteSettings` y rebuild estático; guardar un borrador no cambia la landing.
+Deshabilitarla y publicar permite retirarla sin borrar su contenido. El webhook
+existente ya contempla `siteSettings`, por lo que no requiere otro tipo de documento.
+
 ## Expiración de eventos
 
 Si `expiresAt` tiene un valor explícito, ese valor manda.
@@ -93,7 +108,8 @@ variables protegidas de Vercel o en secretos de GitHub.
 ## UX V1 del Studio
 
 El Studio self-hosted presenta un panel de contenido en Structure Builder con
-las secciones `Inicio`, `Eventos`, `Venues`, `Productoras`, `Links` y `Perfil`.
+las secciones `Inicio`, `Eventos`, `Venues`, `Productoras`, `Links`,
+`Links especiales` y `Perfil`.
 Inicio resume próximos eventos, links activos y perfil; Eventos agrega pestañas
 de próximos, pasados y todos, búsqueda por título o lugar y estados `Visible`,
 `Oculto`, `Finalizado` con la prioridad de visibilidad definida por el schema.

@@ -327,6 +327,11 @@ svg {
   list-style: none;
 }
 
+[data-events-list][hidden],
+[data-event-expires-at][hidden] {
+  display: none;
+}
+
 .event-item {
   position: relative;
   display: grid;

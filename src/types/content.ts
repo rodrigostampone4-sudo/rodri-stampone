@@ -52,6 +52,26 @@ export interface SiteSettings {
   profileImage?: SanityImage;
   bio?: string;
   links: PermanentLink[];
+  specialLink?: SpecialLink | null;
+}
+
+export interface SpecialLink {
+  enabled: boolean;
+  title?: string;
+  description?: string;
+  ctaLabel?: string;
+  url?: string;
+  producer?: string;
+  venue?: string;
+}
+
+export interface ActiveSpecialLink {
+  title: string;
+  description?: string;
+  ctaLabel: string;
+  url: string;
+  producer: string;
+  venue: string;
 }
 
 export interface Event {

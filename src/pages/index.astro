@@ -2,12 +2,14 @@
 import { Image } from 'astro:assets';
 import BrandHead from '../components/BrandHead.astro';
 import PermanentLinkIcon from '../components/PermanentLinkIcon.astro';
+import SpecialLinkCard from '../components/SpecialLinkCard.astro';
 import neonLogo from '../assets/4side/4side-logotipo-neon-naranja-alpha.png';
 import reliefLogo from '../assets/4side/4side-logotipo-relieve-negro-alpha.png';
 import reliefLogoHitArea from '../assets/4side/4side-logotipo-relieve-vectorizado.svg?raw';
 import { getEventExpirationTime, isEventActive } from '../lib/events/expiration';
 import { buildEventTablesWhatsAppUrl } from '../lib/events/tables-link';
 import { findProfileInstagramLink } from '../lib/links/profile-instagram';
+import { getActiveSpecialLink } from '../lib/links/special-link';
 import { getSanityClient } from '../lib/sanity/client';
 import { buildSanityImageSrcSet, buildSanityImageUrl } from '../lib/sanity/image';
 import { siteSettingsQuery, visibleEventsQuery } from '../lib/sanity/queries';
@@ -33,6 +35,7 @@ if (!siteSettings) {
 }
 
 const enabledLinks = siteSettings.links.filter((link) => link.enabled);
+const specialLink = getActiveSpecialLink(siteSettings.specialLink);
 const renderTime = new Date();
 const activeEvents = events.flatMap((event) => {
   if (!isEventActive(event, renderTime)) {
@@ -275,6 +278,7 @@ const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 120
           >
             No hay próximos eventos publicados.
           </p>
+          {specialLink && <SpecialLinkCard link={specialLink} />}
         </section>
 
         <section class="profile-section" aria-labelledby="profile-heading">

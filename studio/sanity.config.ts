@@ -66,6 +66,13 @@ export default defineConfig({
             .documentId('siteSettings')
             .title('Links')
             .views([S.view.form().id('links').title('Links')]);
+        const specialLinksPane = () =>
+          S.document()
+            .id('specialLinks')
+            .schemaType('siteSettings')
+            .documentId('siteSettings')
+            .title('Links especiales')
+            .views([S.view.form().id('specialLinks').title('Links especiales')]);
         const homePane = S.component(DashboardPane)
           .id('home')
           .title('Inicio')
@@ -99,6 +106,11 @@ export default defineConfig({
               .id('links')
               .icon(LinkIcon)
               .child(linksPane()),
+            S.listItem()
+              .title('Links especiales')
+              .id('specialLinks')
+              .icon(LinkIcon)
+              .child(specialLinksPane()),
             S.listItem()
               .title('Perfil')
               .id('profile')

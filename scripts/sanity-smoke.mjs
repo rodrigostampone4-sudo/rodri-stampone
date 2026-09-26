@@ -6,6 +6,7 @@ import {
   siteSettingsQuery,
 } from '../src/lib/sanity/queries.ts';
 import { permanentLinkKinds } from '../src/types/content.ts';
+import { getActiveSpecialLink } from '../src/lib/links/special-link.ts';
 
 const config = createSanityConfig({
   projectId: process.env.PUBLIC_SANITY_PROJECT_ID,
@@ -40,6 +41,10 @@ function validateSiteSettings(siteSettings) {
   assert(siteSettings?._id === 'siteSettings', 'The stable siteSettings document was not found.');
   assert(isNonEmptyString(siteSettings.name), 'siteSettings.name is missing.');
   assert(Array.isArray(siteSettings.links), 'siteSettings.links must be an array.');
+
+  if (siteSettings.specialLink?.enabled === true) {
+    assert(getActiveSpecialLink(siteSettings.specialLink), 'The enabled special link is incomplete or invalid.');
+  }
 
   siteSettings.links.forEach((link, index) => {
     const label = `siteSettings.links[${index}]`;
@@ -102,6 +107,7 @@ async function main() {
   console.log('Sanity connection OK');
   console.log(`Site settings: ${siteSettings.name}`);
   console.log(`Permanent links: ${siteSettings.links.length}`);
+  console.log(`Special link: ${getActiveSpecialLink(siteSettings.specialLink) ? 'enabled' : 'disabled'}`);
   console.log(`Events: ${events.length}`);
 }
 
