@@ -168,12 +168,6 @@ export default defineType({
           rows: 3,
         }),
         defineField({
-          name: 'ctaLabel',
-          title: 'Texto del botón',
-          type: 'string',
-          validation: (Rule) => Rule.custom(specialLinkValidators.ctaLabel),
-        }),
-        defineField({
           name: 'url',
           title: 'URL de destino',
           type: 'url',

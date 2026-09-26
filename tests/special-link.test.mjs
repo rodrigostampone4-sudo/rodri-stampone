@@ -7,9 +7,9 @@ const pack = {
   enabled: true,
   title: 'Pack de 4 entradas',
   description: 'Para eventos Mute a elección',
-  ctaLabel: 'Ver pack',
   producer: 'Mute',
   venue: 'Mute',
+  venueMapsUrl: 'https://maps.google.com/?q=Mute',
   url: 'https://wearebombo.app.link/EOvewhnrH6b',
 };
 
@@ -25,7 +25,7 @@ test('an enabled pack preserves its exact destination without requiring an event
 });
 
 test('incomplete content or unresolved catalog references never produce an active card', () => {
-  for (const field of ['title', 'ctaLabel', 'url', 'producer', 'venue']) {
+  for (const field of ['title', 'url', 'producer', 'venue']) {
     for (const value of [undefined, null, '', '   ']) {
       assert.equal(getActiveSpecialLink({ ...pack, [field]: value }), null, field);
     }
@@ -42,9 +42,16 @@ test('the description is optional and editorial whitespace is normalized', () =>
   assert.deepEqual(getActiveSpecialLink({ ...pack, title: ` ${pack.title} `, description: undefined }), {
     title: pack.title,
     description: '',
-    ctaLabel: pack.ctaLabel,
     producer: pack.producer,
     venue: pack.venue,
+    venueMapsUrl: pack.venueMapsUrl,
     url: pack.url,
   });
+});
+
+test('a venue without a Maps URL keeps the pack active without a Maps link', () => {
+  const { venueMapsUrl, ...withoutMaps } = pack;
+  const active = getActiveSpecialLink(withoutMaps);
+  assert.ok(active);
+  assert.equal('venueMapsUrl' in active, false);
 });

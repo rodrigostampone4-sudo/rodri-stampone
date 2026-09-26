@@ -37,10 +37,10 @@ export const siteSettingsQuery = `*[_type == "siteSettings" && _id == "siteSetti
     enabled,
     title,
     description,
-    ctaLabel,
     url,
     "producer": producer->name,
-    "venue": venue->name
+    "venue": venue->name,
+    "venueMapsUrl": venue->mapsUrl
   }
 }`;
 

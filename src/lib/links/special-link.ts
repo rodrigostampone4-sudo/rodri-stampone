@@ -7,12 +7,11 @@ export function getActiveSpecialLink(link?: SpecialLink | null): ActiveSpecialLi
 
   const text = (value: unknown) => (typeof value === 'string' ? value.trim() : '');
   const title = text(link.title);
-  const ctaLabel = text(link.ctaLabel);
   const url = text(link.url);
   const producer = text(link.producer);
   const venue = text(link.venue);
 
-  if (!title || !ctaLabel || !url || !producer || !venue) {
+  if (!title || !url || !producer || !venue) {
     return null;
   }
 
@@ -25,5 +24,13 @@ export function getActiveSpecialLink(link?: SpecialLink | null): ActiveSpecialLi
     return null;
   }
 
-  return { title, description: text(link.description), ctaLabel, url, producer, venue };
+  const venueMapsUrl = text(link.venueMapsUrl);
+  return {
+    title,
+    description: text(link.description),
+    url,
+    producer,
+    venue,
+    ...(venueMapsUrl ? { venueMapsUrl } : {}),
+  };
 }

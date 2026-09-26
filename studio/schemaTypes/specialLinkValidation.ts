@@ -41,10 +41,6 @@ export const specialLinkValidators = {
     isNonEmptyText,
     'El título es obligatorio cuando el link especial está habilitado.',
   ),
-  ctaLabel: requiredWhenEnabled(
-    isNonEmptyText,
-    'El texto del botón es obligatorio cuando el link especial está habilitado.',
-  ),
   url: requiredWhenEnabled(
     isSecureHttpsUrl,
     'Ingresá una URL https válida cuando el link especial está habilitado.',

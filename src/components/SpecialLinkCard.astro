@@ -8,25 +8,41 @@ interface Props {
 const { link } = Astro.props;
 ---
 
-<a
+<div
   class="special-link-card"
   data-special-link-card
-  href={link.url}
-  target="_blank"
-  rel="noopener noreferrer"
 >
+  <a
+    class="special-link-card__ticket-link"
+    href={link.url}
+    target="_blank"
+    rel="noreferrer"
+    aria-label={`${link.title}, ${link.venue}, productora ${link.producer}. Abrir tickets`}
+  ></a>
   <div class="special-link-card__content">
-    <span class="special-link-card__label">Especial</span>
     <h2 class="special-link-card__title">{link.title}</h2>
     {link.description && <p class="special-link-card__description">{link.description}</p>}
-    <span class="special-link-card__venue">{link.venue}</span>
+    {link.venueMapsUrl ? (
+      <a
+        class="special-link-card__venue special-link-card__venue--maps"
+        href={link.venueMapsUrl}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Abrir ubicación de ${link.venue} en Google Maps`}
+      >
+        {link.venue}
+      </a>
+    ) : (
+      <span class="special-link-card__venue">{link.venue}</span>
+    )}
     <span class="special-link-card__producer">{link.producer}</span>
   </div>
-  <span class="special-link-card__cta">{link.ctaLabel}</span>
-</a>
+  <span class="special-link-card__cta">Tickets</span>
+</div>
 
 <style>
   .special-link-card {
+    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) 6.25rem;
     gap: 12px;
@@ -38,8 +54,14 @@ const { link } = Astro.props;
     text-decoration: none;
   }
 
+  .special-link-card__ticket-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
   .special-link-card:hover,
-  .special-link-card:focus-visible {
+  .special-link-card:has(:focus-visible) {
     border-color: var(--color-border-strong);
     background: linear-gradient(90deg, var(--color-accent-soft), transparent 46%);
   }
@@ -50,14 +72,6 @@ const { link } = Astro.props;
     gap: 8px;
     justify-items: start;
     overflow-wrap: anywhere;
-  }
-
-  .special-link-card__label {
-    color: var(--color-accent);
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
   }
 
   .special-link-card__title {
@@ -83,6 +97,25 @@ const { link } = Astro.props;
   .special-link-card__venue {
     font-size: 0.82rem;
     letter-spacing: 0.035em;
+  }
+
+  .special-link-card__venue--maps {
+    position: relative;
+    z-index: 2;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    padding-inline: 0.5rem;
+    margin-inline: -0.5rem;
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-strong);
+    text-underline-offset: 0.2em;
+  }
+
+  .special-link-card__venue--maps:hover,
+  .special-link-card__venue--maps:focus-visible {
+    color: var(--color-accent-bright);
   }
 
   .special-link-card__producer {
@@ -117,7 +150,7 @@ const { link } = Astro.props;
   }
 
   .special-link-card:hover .special-link-card__cta,
-  .special-link-card:focus-visible .special-link-card__cta {
+  .special-link-card:has(.special-link-card__ticket-link:focus-visible) .special-link-card__cta {
     background: var(--color-accent-bright);
     border-color: var(--color-accent-bright);
   }

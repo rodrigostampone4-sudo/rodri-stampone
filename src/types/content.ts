@@ -59,19 +59,19 @@ export interface SpecialLink {
   enabled: boolean;
   title?: string;
   description?: string;
-  ctaLabel?: string;
   url?: string;
   producer?: string;
   venue?: string;
+  venueMapsUrl?: string;
 }
 
 export interface ActiveSpecialLink {
   title: string;
   description?: string;
-  ctaLabel: string;
   url: string;
   producer: string;
   venue: string;
+  venueMapsUrl?: string;
 }
 
 export interface Event {

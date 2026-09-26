@@ -17,26 +17,25 @@ test('special link is optional, disabled by default and editable from its own se
   assert.match(input, /specialLinks:[\s\S]*?fieldNames: \['specialLink'\]/);
 });
 
-test('schema validator callbacks require title, button, and references only while enabled', () => {
+test('schema validator callbacks require title and references only while enabled', () => {
   const disabled = { parent: { enabled: false } };
   const enabled = { parent: { enabled: true } };
 
   assert.equal(specialLinkValidators.title(undefined, disabled), true);
-  assert.equal(specialLinkValidators.ctaLabel(undefined, disabled), true);
   assert.equal(specialLinkValidators.producer(undefined, disabled), true);
   assert.equal(specialLinkValidators.venue(undefined, disabled), true);
   assert.equal(specialLinkValidators.title(undefined, enabled), 'El título es obligatorio cuando el link especial está habilitado.');
-  assert.equal(specialLinkValidators.ctaLabel(undefined, enabled), 'El texto del botón es obligatorio cuando el link especial está habilitado.');
   assert.equal(specialLinkValidators.producer(undefined, enabled), 'La productora es obligatoria cuando el link especial está habilitado.');
   assert.equal(specialLinkValidators.venue(undefined, enabled), 'El venue es obligatorio cuando el link especial está habilitado.');
   assert.equal(specialLinkValidators.title('Pack de 4 entradas', enabled), true);
   assert.equal(specialLinkValidators.producer({ _ref: 'producer-id' }, enabled), true);
   assert.equal(specialLinkValidators.venue({ _ref: 'venue-id' }, enabled), true);
-  for (const field of ['title', 'ctaLabel', 'producer', 'venue']) {
+  for (const field of ['title', 'producer', 'venue']) {
     assert.ok(schema.includes(`Rule.custom(specialLinkValidators.${field})`));
   }
   assert.match(schema, /name: 'producer'[\s\S]*?to: \[\{ type: 'producer' \}\][\s\S]*?input: ManagedReferenceInput/);
   assert.match(schema, /name: 'venue'[\s\S]*?to: \[\{ type: 'venue' \}\][\s\S]*?input: ManagedReferenceInput/);
+  assert.doesNotMatch(schema, /name: 'ctaLabel'/);
 });
 
 test('enabled special link accepts secure HTTPS URLs and rejects insecure or credentialed destinations', () => {
