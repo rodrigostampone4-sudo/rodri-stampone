@@ -84,9 +84,7 @@ const { link } = Astro.props;
 
   .special-link-card__venue {
     color: var(--color-text-muted);
-  }
-
-  .special-link-card__venue {
+    margin-inline-start: calc(var(--event-leading-column-width) + 8px);
     font-size: 0.82rem;
     letter-spacing: 0.035em;
   }
@@ -99,7 +97,8 @@ const { link } = Astro.props;
     display: inline-flex;
     align-items: center;
     padding-inline: 0.5rem;
-    margin-inline: -0.5rem;
+    margin-inline-start: calc(var(--event-leading-column-width) + 8px - 0.5rem);
+    margin-inline-end: -0.5rem;
     text-decoration: underline;
     text-decoration-color: var(--color-border-strong);
     text-underline-offset: 0.2em;
