@@ -6,7 +6,6 @@ import { getActiveSpecialLink } from '../src/lib/links/special-link.ts';
 const pack = {
   enabled: true,
   title: 'Pack de 4 entradas',
-  description: 'Para eventos Mute a elección',
   producer: 'Mute',
   venue: 'Mute',
   venueMapsUrl: 'https://maps.google.com/?q=Mute',
@@ -38,10 +37,9 @@ test('only absolute HTTPS destinations without credentials are accepted', () => 
   }
 });
 
-test('the description is optional and editorial whitespace is normalized', () => {
-  assert.deepEqual(getActiveSpecialLink({ ...pack, title: ` ${pack.title} `, description: undefined }), {
+test('editorial whitespace is normalized', () => {
+  assert.deepEqual(getActiveSpecialLink({ ...pack, title: ` ${pack.title} ` }), {
     title: pack.title,
-    description: '',
     producer: pack.producer,
     venue: pack.venue,
     venueMapsUrl: pack.venueMapsUrl,

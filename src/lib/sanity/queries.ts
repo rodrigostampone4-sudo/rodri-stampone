@@ -36,7 +36,6 @@ export const siteSettingsQuery = `*[_type == "siteSettings" && _id == "siteSetti
   specialLink{
     enabled,
     title,
-    description,
     url,
     "producer": producer->name,
     "venue": venue->name,

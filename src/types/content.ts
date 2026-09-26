@@ -58,7 +58,6 @@ export interface SiteSettings {
 export interface SpecialLink {
   enabled: boolean;
   title?: string;
-  description?: string;
   url?: string;
   producer?: string;
   venue?: string;
@@ -67,7 +66,6 @@ export interface SpecialLink {
 
 export interface ActiveSpecialLink {
   title: string;
-  description?: string;
   url: string;
   producer: string;
   venue: string;

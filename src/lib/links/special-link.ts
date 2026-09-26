@@ -27,7 +27,6 @@ export function getActiveSpecialLink(link?: SpecialLink | null): ActiveSpecialLi
   const venueMapsUrl = text(link.venueMapsUrl);
   return {
     title,
-    description: text(link.description),
     url,
     producer,
     venue,

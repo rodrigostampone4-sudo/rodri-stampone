@@ -21,7 +21,6 @@ const { link } = Astro.props;
   ></a>
   <div class="special-link-card__content">
     <h2 class="special-link-card__title">{link.title}</h2>
-    {link.description && <p class="special-link-card__description">{link.description}</p>}
     {link.venueMapsUrl ? (
       <a
         class="special-link-card__venue special-link-card__venue--maps"
@@ -83,13 +82,6 @@ const { link } = Astro.props;
     text-wrap: balance;
   }
 
-  .special-link-card__description {
-    margin: 0;
-    font-size: 0.875rem;
-    line-height: 1.4;
-  }
-
-  .special-link-card__description,
   .special-link-card__venue {
     color: var(--color-text-muted);
   }

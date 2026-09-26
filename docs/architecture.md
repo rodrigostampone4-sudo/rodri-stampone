@@ -75,8 +75,8 @@ internos auxiliares.
 
 La card de links especiales se administra desde `Links especiales` en el Studio,
 mediante el objeto opcional `siteSettings.specialLink`. Guarda habilitación,
-título, descripción opcional, URL HTTPS y referencias a los catálogos de
-productoras y venues. La landing muestra una única card después de los eventos,
+título, URL HTTPS y referencias a los catálogos de productoras y venues. La
+landing muestra una única card después de los eventos,
 con el CTA «Tickets» y un enlace independiente a Maps cuando el venue lo tiene.
 El objeto ausente, deshabilitado o incompleto no produce una card.
 

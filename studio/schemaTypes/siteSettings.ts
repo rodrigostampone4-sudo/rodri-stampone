@@ -162,12 +162,6 @@ export default defineType({
           validation: (Rule) => Rule.custom(specialLinkValidators.title),
         }),
         defineField({
-          name: 'description',
-          title: 'Descripción',
-          type: 'text',
-          rows: 3,
-        }),
-        defineField({
           name: 'url',
           title: 'URL de destino',
           type: 'url',

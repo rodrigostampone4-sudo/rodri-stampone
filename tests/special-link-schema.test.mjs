@@ -49,17 +49,11 @@ test('enabled special link accepts secure HTTPS URLs and rejects insecure or cre
   assert.ok(schema.includes('Rule.custom(specialLinkValidators.url)'));
 });
 
-test('description stays optional in the schema', () => {
-  const descriptionField = schema.match(/name: 'description',[\s\S]*?\n        \}\),/u)?.[0];
-
-  assert.ok(descriptionField, 'description field should be present');
-  assert.doesNotMatch(descriptionField, /validation:/);
-});
-
 test('special link retains producer and venue references without event, table, map or multi-link fields', () => {
   const specialLinkSchema = schema.match(/name: 'specialLink',[\s\S]*?\n    \}\),\n  \],/u)?.[0];
 
   assert.ok(specialLinkSchema, 'specialLink schema field should be present');
+  assert.doesNotMatch(specialLinkSchema, /name: 'description'/);
   assert.match(specialLinkSchema, /to: \[\{ type: 'producer' \}\][\s\S]*?input: ManagedReferenceInput/);
   assert.match(specialLinkSchema, /to: \[\{ type: 'venue' \}\][\s\S]*?input: ManagedReferenceInput/);
   assert.doesNotMatch(specialLinkSchema, /name: '(?:date|tables|maps|events|links)'/);
