@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { after, test } from 'node:test';
 
-import { installPullToRefresh } from '../studio/src/lib/use-pull-to-refresh.ts';
+import { installPullToRefresh } from '../studio/src/lib/pull-to-refresh.ts';
 
 const originalElement = globalThis.Element;
 
