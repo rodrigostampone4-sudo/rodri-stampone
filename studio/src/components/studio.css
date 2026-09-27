@@ -27,6 +27,14 @@
   overflow-y: auto;
 }
 
+@media (hover: none) and (pointer: coarse) {
+  /* Let Chrome receive a pull from Sanity's pane lists when they reach the top. */
+  #sanity [data-testid='pane-content'] > [class*='VirtualListBox'],
+  #sanity [data-testid='document-list-pane'] [class*='VirtualListBox'] {
+    overscroll-behavior-y: auto;
+  }
+}
+
 .rs-pane__inner {
   position: relative;
   width: min(100%, 1040px);
