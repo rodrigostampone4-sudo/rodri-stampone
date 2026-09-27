@@ -77,6 +77,7 @@ const profileImageSrcSet = buildSanityImageSrcSet(
   86,
 );
 const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 1200, 86);
+const profileImageAlt = `Retrato de ${siteSettings.name}`;
 ---
 
 <!doctype html>
@@ -95,7 +96,7 @@ const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 120
     {profileSocialImageUrl && (
       <meta
         property="og:image:alt"
-        content={siteSettings.profileImage?.alt || `Retrato de ${siteSettings.name}`}
+        content={profileImageAlt}
       />
     )}
     <meta name="twitter:card" content="summary_large_image" />
@@ -336,7 +337,7 @@ const profileSocialImageUrl = buildSanityImageUrl(siteSettings.profileImage, 120
                   sizes="(max-width: 992px) calc(100vw - 40px), 43vw"
                   width="1080"
                   height="1080"
-                  alt={siteSettings.profileImage?.alt || `Retrato de ${siteSettings.name}`}
+                  alt={profileImageAlt}
                   loading="lazy"
                   decoding="async"
                 />

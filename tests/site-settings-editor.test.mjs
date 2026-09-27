@@ -2,11 +2,13 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [actions, config, input, landingLinkIcon, schema, studioLinkIcon] = await Promise.all([
+const [actions, config, input, landing, landingLinkIcon, query, schema, studioLinkIcon] = await Promise.all([
   readFile(new URL('../studio/src/lib/document-actions.ts', import.meta.url), 'utf8'),
   readFile(new URL('../studio/sanity.config.ts', import.meta.url), 'utf8'),
   readFile(new URL('../studio/src/components/SiteSettingsInput.tsx', import.meta.url), 'utf8'),
+  readFile(new URL('../src/pages/index.astro', import.meta.url), 'utf8'),
   readFile(new URL('../src/components/PermanentLinkIcon.astro', import.meta.url), 'utf8'),
+  readFile(new URL('../src/lib/sanity/queries.ts', import.meta.url), 'utf8'),
   readFile(new URL('../studio/schemaTypes/siteSettings.ts', import.meta.url), 'utf8'),
   readFile(new URL('../studio/src/components/PermanentLinkIcon.tsx', import.meta.url), 'utf8'),
 ]);
@@ -54,9 +56,12 @@ test('site settings cannot be created, duplicated, unpublished or deleted accide
   );
 });
 
-test('profile images expose an editable non-blocking alt text warning', () => {
-  assert.match(schema, /name: 'profileImage'[\s\S]*?name: 'alt'/);
-  assert.match(schema, /Rule\.required\(\)[\s\S]*?\.warning\(/);
+test('profile images use generated alternative text without a CMS field', () => {
+  assert.doesNotMatch(schema, /name: 'alt'/);
+  assert.doesNotMatch(query, /\balt,/);
+  assert.match(landing, /const profileImageAlt = `Retrato de \$\{siteSettings\.name\}`;/);
+  assert.match(landing, /content=\{profileImageAlt\}/);
+  assert.match(landing, /alt=\{profileImageAlt\}/);
 });
 
 test('links expose one semantic personal Instagram destination at most', () => {

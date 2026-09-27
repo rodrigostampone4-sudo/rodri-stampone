@@ -31,5 +31,4 @@ export interface SanityImageReference {
     _ref: string;
     _type: 'reference';
   };
-  alt?: string;
 }

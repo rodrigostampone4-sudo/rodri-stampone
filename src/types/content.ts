@@ -24,7 +24,6 @@ export interface SanityImage {
       dimensions?: SanityImageDimensions;
     };
   };
-  alt?: string;
   crop?: {
     top: number;
     bottom: number;

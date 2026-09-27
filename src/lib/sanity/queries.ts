@@ -1,6 +1,5 @@
 const imageProjection = `{
   _type,
-  alt,
   crop,
   hotspot,
   asset->{

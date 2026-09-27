@@ -50,18 +50,6 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
       group: 'profile',
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Texto alternativo',
-          type: 'string',
-          description: 'Describí brevemente la imagen para personas que no pueden verla.',
-          validation: (Rule) =>
-            Rule.required()
-              .max(160)
-              .warning('Agregá un texto alternativo antes de publicar una imagen nueva.'),
-        }),
-      ],
     }),
     defineField({
       name: 'bio',
