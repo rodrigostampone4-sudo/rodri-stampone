@@ -108,8 +108,8 @@ variables protegidas de Vercel o en secretos de GitHub.
 ## UX V1 del Studio
 
 El Studio self-hosted presenta un panel de contenido en Structure Builder con
-las secciones `Inicio`, `Eventos`, `Venues`, `Productoras`, `Links`,
-`Links especiales` y `Perfil`.
+las secciones `Inicio`, `Eventos`, `Links especiales`, `Links`, `Venue`,
+`Productora` y `Perfil`.
 Inicio resume próximos eventos, links activos y perfil; Eventos agrega pestañas
 de próximos, pasados y todos, búsqueda por título o lugar y estados `Visible`,
 `Oculto`, `Finalizado` con la prioridad de visibilidad definida por el schema.

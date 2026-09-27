@@ -34,7 +34,7 @@ test('Studio exposes an editable producer catalog', () => {
   assert.match(producerSchema, /media: 'logo'/);
   assert.match(schemaIndex, /import producer from '\.\/producer'/);
   assert.match(schemaIndex, /schemaTypes = \[siteSettings, event, venue, producer\]/);
-  assert.match(studioConfig, /title\('Productoras'\)[\s\S]*?documentTypeList\('producer'\)/);
+  assert.match(studioConfig, /title\('Productora'\)[\s\S]*?documentTypeList\('producer'\)/);
 });
 
 test('events select a producer from the managed catalog', () => {

@@ -92,25 +92,25 @@ export default defineConfig({
               .icon(CalendarIcon)
               .child(eventsPane()),
             S.listItem()
-              .title('Venues')
-              .id('venues')
-              .icon(PinIcon)
-              .child(S.documentTypeList('venue').title('Venues')),
-            S.listItem()
-              .title('Productoras')
-              .id('producers')
-              .icon(UsersIcon)
-              .child(S.documentTypeList('producer').title('Productoras')),
+              .title('Links especiales')
+              .id('specialLinks')
+              .icon(LinkIcon)
+              .child(specialLinksPane()),
             S.listItem()
               .title('Links')
               .id('links')
               .icon(LinkIcon)
               .child(linksPane()),
             S.listItem()
-              .title('Links especiales')
-              .id('specialLinks')
-              .icon(LinkIcon)
-              .child(specialLinksPane()),
+              .title('Venue')
+              .id('venues')
+              .icon(PinIcon)
+              .child(S.documentTypeList('venue').title('Venue')),
+            S.listItem()
+              .title('Productora')
+              .id('producers')
+              .icon(UsersIcon)
+              .child(S.documentTypeList('producer').title('Productora')),
             S.listItem()
               .title('Perfil')
               .id('profile')

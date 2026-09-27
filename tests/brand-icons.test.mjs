@@ -133,7 +133,7 @@ test('Studio overrides every built-in Sanity favicon with the public brand set',
   ]);
   assert.match(config, /icon: FourSideIcon/);
   assert.match(config, /import \{ PinIcon \} from '@sanity\/icons\/Pin';/);
-  assert.match(config, /title\('Venues'\)[\s\S]*?\.icon\(PinIcon\)/);
+  assert.match(config, /title\('Venue'\)[\s\S]*?\.icon\(PinIcon\)/);
   assert.match(icon, /<svg[\s\S]*?viewBox="0 0 128 128"/);
   assert.match(icon, /href="\/static\/4side-isotipo-white\.png"/);
   assert.match(icon, /fill="currentColor"/);
