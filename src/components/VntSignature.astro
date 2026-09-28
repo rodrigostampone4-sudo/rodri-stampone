@@ -58,11 +58,13 @@ import logoUrl from '../assets/vnt/logo-signature-white.svg?url';
   @media (max-width: 42rem) {
     .vnt-signature {
       gap: 0.5rem;
-      font-size: 0.625rem;
+      letter-spacing: 0;
+      white-space: nowrap;
+      font-size: clamp(0.625rem, 2.8vw, 0.75rem);
     }
 
     .vnt-signature img {
-      height: 1.25rem;
+      height: clamp(1.375rem, 6.2vw, 1.75rem);
     }
   }
 </style>
