@@ -1,0 +1,57 @@
+---
+import logoUrl from '../assets/vnt/logo-signature-white.svg?url';
+---
+
+<a
+  class="vnt-signature"
+  href="https://www.instagram.com/vnt.agencia/"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="created by VNT — Instagram (se abre en otra pestaña)"
+>
+  <span lang="en">created by</span>
+  <img src={logoUrl} alt="" width="2150" height="589" loading="lazy" decoding="async" />
+</a>
+
+<style>
+  @font-face {
+    font-family: 'Host Grotesk';
+    src: url('../assets/vnt/HostGrotesk-VariableFont_wght.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 300 800;
+    font-display: swap;
+  }
+
+  .vnt-signature {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text-muted);
+    font-family: 'Host Grotesk', Arial, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-transform: none;
+    transition: color var(--transition-fast);
+  }
+
+  .vnt-signature img {
+    width: auto;
+    height: 1.75rem;
+    opacity: 0.8;
+    transition: opacity var(--transition-fast);
+  }
+
+  .vnt-signature:hover,
+  .vnt-signature:focus-visible {
+    color: var(--color-text);
+  }
+
+  .vnt-signature:hover img,
+  .vnt-signature:focus-visible img {
+    opacity: 1;
+  }
+</style>

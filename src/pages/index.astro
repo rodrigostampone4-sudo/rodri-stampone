@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import BrandHead from '../components/BrandHead.astro';
 import PermanentLinkIcon from '../components/PermanentLinkIcon.astro';
 import SpecialLinkCard from '../components/SpecialLinkCard.astro';
+import VntSignature from '../components/VntSignature.astro';
 import neonLogo from '../assets/4side/4side-logotipo-neon-naranja-alpha.png';
 import reliefLogo from '../assets/4side/4side-logotipo-relieve-negro-alpha.png';
 import reliefLogoHitArea from '../assets/4side/4side-logotipo-relieve-vectorizado.svg?raw';
@@ -350,8 +351,13 @@ const profileImageAlt = `Retrato de ${siteSettings.name}`;
       </main>
 
       <footer class="site-footer">
-        <strong>{siteSettings.name}</strong>
-        <span>{producerName}</span>
+        <div class="footer-identity">
+          <strong>{siteSettings.name}</strong>
+          <a href={producerInstagramUrl} target="_blank" rel="noopener noreferrer">
+            {producerName}
+          </a>
+        </div>
+        <VntSignature />
       </footer>
     </div>
     <script>
