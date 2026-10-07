@@ -729,8 +729,8 @@ svg {
 }
 
 .site-footer {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  display: flex;
+  flex-wrap: wrap;
   min-height: 8rem;
   align-items: center;
   gap: 1rem;
@@ -752,10 +752,15 @@ svg {
 
 .footer-identity {
   display: flex;
-  min-width: 0;
+  min-width: min-content;
+  flex: 1;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
+}
+
+.site-footer > .vnt-signature {
+  margin-left: auto;
 }
 
 .footer-identity a {
