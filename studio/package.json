@@ -17,16 +17,16 @@
     "seed:venues": "sanity exec scripts/seed-venues.ts --with-user-token"
   },
   "dependencies": {
-    "@sanity/icons": "^5.2.2",
+    "@sanity/icons": "^5.2.3",
     "@sanity/image-url": "^2.1.1",
-    "@sanity/ui": "^4.2.1",
+    "@sanity/ui": "^4.3.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "sanity": "^6.15.0",
+    "sanity": "^6.17.0",
     "styled-components": "^6.5.3"
   },
   "devDependencies": {
-    "@types/node": "^24.13.6",
+    "@types/node": "^24.19.1",
     "typescript": "^6.0.3"
   },
   "overrides": {
