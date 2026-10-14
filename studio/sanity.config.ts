@@ -110,7 +110,7 @@ export default defineConfig({
               .title('Productora')
               .id('producers')
               .icon(UsersIcon)
-              .child(S.documentTypeList('producer').title('Productora')),
+              .child(S.documentTypeList('producer').id('producers').title('Productora')),
             S.listItem()
               .title('Perfil')
               .id('profile')

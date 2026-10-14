@@ -1,14 +1,9 @@
 import { defineField, defineType } from 'sanity';
 
-import { ProducerPreview } from '../src/components/ProducerPreview';
-
 export default defineType({
   name: 'producer',
   title: 'Productora',
   type: 'document',
-  components: {
-    preview: ProducerPreview,
-  },
   fields: [
     defineField({
       name: 'name',

@@ -1,3 +1,8 @@
+/* Structure document lists bypass schema preview components. */
+[data-ui='DocumentListPane'][id^='producers-'] [data-testid='Media'] > [data-border] {
+  box-shadow: none;
+}
+
 .rs-pane {
   --rs-card: var(--card-muted-bg-color);
   --rs-fg: var(--card-fg-color);
